@@ -1,0 +1,4 @@
+streamlit
+comtypes
+pandas
+numpy
