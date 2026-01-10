@@ -1,4 +1,6 @@
-streamlit
-comtypes
-pandas
-numpy
+comtypes>=1.2.1
+pandas>=2.0.0
+numpy>=1.24.0
+python-dotenv>=1.0.0
+Pillow>=10.0.0
+tksheet>=1.6.0
