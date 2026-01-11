@@ -1,0 +1,3 @@
+﻿Name,Material,From File?,Depth,Width,Rigid Zone?,Notional Size Type,Notional Auto Factor,Design Type,Area Modifier,As2 Modifier,As3 Modifier,J Modifier,I22 Modifier,I33 Modifier,Mass Modifier,Weight Modifier,Color,GUID,Notes
+ConcBm,4000Psi,No,24,18,No,Auto,1,Beam,1,1,1,1,1,1,1,1,Magenta,983429ef-fc3c-4bbe-be6d-ab3a67c89be9,
+ConcCol,4000Psi,No,18,18,No,Auto,1,Column,1,1,1,1,1,1,1,1,Red,9efc4a90-95fb-49b8-9946-f524f4230ecf,

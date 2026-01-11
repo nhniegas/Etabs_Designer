@@ -1,246 +1,162 @@
-"""
-ETABS Designer - Main Application
-Extended design routine interface for ETABS with Streamlit
-"""
-
-import streamlit as st
-from pathlib import Path
 import sys
+import pandas as pd
 
-# Add project root to path
-sys.path.insert(0, str(Path(__file__).parent))
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPalette, QColor
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
 
-from utils.auth import AuthManager, SessionStateManager
-from utils.session import SessionManager
-from modules.etabs_api import ETABSConnector
-
-# Page configuration
-st.set_page_config(
-    page_title="ETABS Designer",
-    page_icon="🏗️",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-
-# Initialize session state
-SessionStateManager.initialize_session_state()
+# This is the only "custom" import you need
+from mainwindow_ui import Ui_MainWindow
 
 
-def render_login_page():
-    """Render login/authentication page"""
-    st.title("🏗️ ETABS Designer")
-    st.subheader("Structural Design Automation")
+class ETABSApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-    with st.container():
-        col1, col2, col3 = st.columns([1, 2, 1])
+        # 2. Initialize the UI class
+        self.ui = Ui_MainWindow()
 
-        with col2:
-            st.markdown("---")
-            st.markdown("### Login")
+        # 3. Call setupUi to draw the designer layout on this window
+        try:
+            self.ui.setupUi(self)
+            self.sample_material_data = pd.read_csv("sample/sample_material_data.csv")
+            self.sample_frame_section_properties = pd.read_csv(
+                "sample/sample_frame_section_properties.csv"
+            )
+            self.sample_frame_assignment = pd.read_csv(
+                "sample/sample_frame_assignment.csv"
+            )
+            self.sample_beam_flexure_envelope = pd.read_csv(
+                "sample/sample_beam_flexure_envelope.csv"
+            )
+            self.sample_beam_shear_envelope = pd.read_csv(
+                "sample/sample_beam_shear_envelope.csv"
+            )
+            print(self.sample_frame_section_properties)
 
-            username = st.text_input("Username", key="login_username")
-            password = st.text_input("Password", type="password", key="login_password")
+        except Exception as e:
+            print(f"Error loading sample data: {e}")
 
-            if st.button("Login", use_container_width=True, key="login_btn"):
-                if AuthManager.login(username, password):
-                    st.success("Login successful!")
-                    st.rerun()
-
-            st.markdown("---")
-            st.info("""
-                **Demo Credentials:**
-                - Username: `admin`
-                - Password: `password123`
-            """)
-
-
-def render_home_page():
-    """Render home/dashboard page"""
-    st.title("🏗️ ETABS Designer Dashboard")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric(
-            "Status",
-            "Connected" if st.session_state.get("etabs_connected") else "Disconnected",
+        self.ui.btn_material_data.clicked.connect(self.display_material_data)
+        self.ui.btn_frame_property.clicked.connect(
+            self.display_frame_section_properties
         )
+        self.ui.btn_frame_assignment.clicked.connect(self.display_frame_assignment)
+        self.ui.btn_flexure.clicked.connect(self.display_frame_flexure_envelope)
+        self.ui.btn_shear.clicked.connect(self.display_frame_shear_envelope)
 
-    with col2:
-        model_status = "Loaded" if st.session_state.get("model_path") else "No Model"
-        st.metric("Current Model", model_status)
+    def display_material_data(self):
+        self.ui.raw_data.setRowCount(0)
+        df = self.sample_material_data
+        self.ui.raw_data.setRowCount(df.shape[0])
+        self.ui.raw_data.setColumnCount(df.shape[1])
 
-    with col3:
-        st.metric("User", AuthManager.get_current_user() or "N/A")
+        headers = [str(col) for col in df.columns.tolist()]
+        self.ui.raw_data.setHorizontalHeaderLabels(headers)
 
-    st.markdown("---")
+        for i in range(df.shape[0]):
+            for j in range(df.shape[1]):
+                value = str(df.iat[i, j])
+                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
 
-    # Quick actions
-    st.subheader("Quick Actions")
+    def display_frame_section_properties(self):
+        self.ui.raw_data.setRowCount(0)
 
-    col1, col2, col3, col4 = st.columns(4)
+        df = self.sample_frame_section_properties
+        self.ui.raw_data.setRowCount(df.shape[0])
+        self.ui.raw_data.setColumnCount(df.shape[1])
 
-    with col1:
-        if st.button("📁 New Project", use_container_width=True):
-            success, msg = SessionManager.new_session()
-            if success:
-                st.success(msg)
-                st.rerun()
+        headers = [str(col) for col in df.columns.tolist()]
+        self.ui.raw_data.setHorizontalHeaderLabels(headers)
 
-    with col2:
-        if st.button("📂 Open Project", use_container_width=True):
-            st.session_state.show_open_dialog = True
+        for i in range(df.shape[0]):
+            for j in range(df.shape[1]):
+                value = str(df.iat[i, j])
+                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
 
-    with col3:
-        if st.button("💾 Save Project", use_container_width=True):
-            if st.session_state.get("current_model"):
-                success, msg = SessionManager.save_session()
-                if success:
-                    st.success(msg)
-                else:
-                    st.error(msg)
-            else:
-                st.warning("No project to save")
+    def display_frame_assignment(self):
+        self.ui.raw_data.setRowCount(0)
 
-    with col4:
-        if st.button("🔗 Link ETABS Model", use_container_width=True):
-            st.session_state.show_link_etabs = True
+        df = self.sample_frame_assignment
+        self.ui.raw_data.setRowCount(df.shape[0])
+        self.ui.raw_data.setColumnCount(df.shape[1])
 
-    # Recent sessions
-    st.markdown("---")
-    st.subheader("Recent Projects")
+        headers = [str(col) for col in df.columns.tolist()]
+        self.ui.raw_data.setHorizontalHeaderLabels(headers)
 
-    recent = SessionManager.get_recent_sessions(5)
-    if recent:
-        for session_path in recent:
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                if st.button(
-                    Path(session_path).name,
-                    use_container_width=True,
-                    key=f"recent_{session_path}",
-                ):
-                    success, msg = SessionManager.open_session(session_path)
-                    if success:
-                        st.success(msg)
-                        st.rerun()
-            with col2:
-                if st.button("🗑️", key=f"del_{session_path}"):
-                    SessionManager.delete_session(session_path)
-                    st.rerun()
-    else:
-        st.info("No recent projects. Create a new project to get started.")
+        for i in range(df.shape[0]):
+            for j in range(df.shape[1]):
+                value = str(df.iat[i, j])
+                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
 
-    # Open file dialog
-    if st.session_state.get("show_open_dialog"):
-        st.session_state.show_open_dialog = False
-        st.info("📂 Open feature: Browse and select a saved project file")
+    def display_frame_flexure_envelope(self):
+        self.ui.raw_data.setRowCount(0)
 
-    # Link ETABS dialog
-    if st.session_state.get("show_link_etabs"):
-        st.session_state.show_link_etabs = False
-        st.info("🔗 Link ETABS: Select an ETABS model file (.EDB) to load")
+        df = self.sample_beam_flexure_envelope
+        self.ui.raw_data.setRowCount(df.shape[0])
+        self.ui.raw_data.setColumnCount(df.shape[1])
 
+        headers = [str(col) for col in df.columns.tolist()]
+        self.ui.raw_data.setHorizontalHeaderLabels(headers)
 
-def render_sidebar():
-    """Render navigation sidebar"""
-    with st.sidebar:
-        st.title("🏗️ ETABS Designer")
+        for i in range(df.shape[0]):
+            for j in range(df.shape[1]):
+                value = str(df.iat[i, j])
+                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
 
-        # User info
-        current_user = AuthManager.get_current_user()
-        if current_user:
-            st.write(f"**Logged in as:** {current_user}")
+    def display_frame_shear_envelope(self):
+        self.ui.raw_data.setRowCount(0)
 
-        st.markdown("---")
+        df = self.sample_beam_shear_envelope
+        self.ui.raw_data.setRowCount(df.shape[0])
+        self.ui.raw_data.setColumnCount(df.shape[1])
 
-        # Navigation
-        st.subheader("Navigation")
+        headers = [str(col) for col in df.columns.tolist()]
+        self.ui.raw_data.setHorizontalHeaderLabels(headers)
 
-        page = st.selectbox(
-            "Select Module",
-            ["Home", "Beam Designer", "Column Designer", "Settings"],
-            key="page_selector",
-            index=0 if st.session_state.get("current_page") == "Home" else 1,
-        )
-
-        st.session_state.current_page = page
-
-        st.markdown("---")
-
-        # Current model info
-        if st.session_state.get("current_model"):
-            st.subheader("Current Project")
-            model = st.session_state.current_model
-            st.write(f"**Name:** {model.get('name', 'Untitled')}")
-            st.write(f"**Modified:** {st.session_state.get('model_modified', False)}")
-
-        st.markdown("---")
-
-        # Logout button
-        if st.button("🚪 Logout", use_container_width=True):
-            AuthManager.logout()
-            st.rerun()
-
-
-def main():
-    """Main application logic"""
-
-    # Check authentication
-    if not AuthManager.is_authenticated():
-        render_login_page()
-        return
-
-    # Render sidebar for authenticated users
-    render_sidebar()
-
-    # Route to appropriate page
-    page = st.session_state.get("current_page", "Home")
-
-    if page == "Home":
-        render_home_page()
-    elif page == "Beam Designer":
-        st.header("🏢 Concrete Beam Designer")
-        st.info("Beam design module - Coming soon!")
-    elif page == "Column Designer":
-        st.header("📊 Concrete Column Designer")
-        st.info("Column design module - Coming soon!")
-    elif page == "Settings":
-        st.header("⚙️ Settings")
-        st.subheader("Design Parameters")
-
-        with st.form("design_params"):
-            col1, col2 = st.columns(2)
-            with col1:
-                fck = st.number_input(
-                    "Concrete Strength (MPa)",
-                    min_value=20,
-                    max_value=60,
-                    value=st.session_state.design_parameters.get(
-                        "concrete_strength", 28
-                    ),
-                )
-                design_code = st.selectbox(
-                    "Design Code",
-                    ["ACI 318-19", "ACI 318-14", "IS 456", "Eurocode 2"],
-                    index=0,
-                )
-
-            with col2:
-                fy = st.number_input(
-                    "Steel Grade (MPa)",
-                    min_value=250,
-                    max_value=500,
-                    value=st.session_state.design_parameters.get("steel_grade", 500),
-                    step=50,
-                )
-
-            if st.form_submit_button("Save Settings", use_container_width=True):
-                st.session_state.design_parameters["concrete_strength"] = fck
-                st.session_state.design_parameters["steel_grade"] = fy
-                st.session_state.design_parameters["design_code"] = design_code
-                st.success("Settings saved!")
+        for i in range(df.shape[0]):
+            for j in range(df.shape[1]):
+                value = str(df.iat[i, j])
+                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
 
 
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv)
+
+    # 1. Force the "Fusion" style (Clean, professional look)
+    app.setStyle("Fusion")
+
+    # 2. Create a White/Light Palette
+    palette = QPalette()
+
+    # Window background (White)
+    palette.setColor(QPalette.Window, QColor(255, 255, 255))
+    palette.setColor(QPalette.WindowText, Qt.black)
+
+    # Base background for inputs/tables (White)
+    palette.setColor(QPalette.Base, QColor(255, 255, 255))
+    palette.setColor(
+        QPalette.AlternateBase, QColor(245, 245, 245)
+    )  # Light grey for alternating rows
+    palette.setColor(QPalette.ToolTipBase, Qt.white)
+    palette.setColor(QPalette.ToolTipText, Qt.black)
+    palette.setColor(QPalette.Text, Qt.black)
+
+    # Buttons (Light Grey)
+    palette.setColor(QPalette.Button, QColor(240, 240, 240))
+    palette.setColor(QPalette.ButtonText, Qt.black)
+    palette.setColor(QPalette.BrightText, Qt.red)
+
+    # Highlight color (The ETABS blue selection color)
+    palette.setColor(QPalette.Link, QColor(42, 130, 218))
+    palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+    palette.setColor(QPalette.HighlightedText, Qt.white)
+
+    # 3. Apply the palette to the app
+    app.setPalette(palette)
+
+    # Now this line will work because the class is defined above!
+    window = ETABSApp()
+    window.showMaximized()
+
+    sys.exit(app.exec())

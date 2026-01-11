@@ -360,3 +360,13 @@ class ETABSConnector:
         except Exception as e:
             print(f"Error closing model: {e}")
             return False
+
+
+if __name__ == "__main__":
+    test_etabs = ETABSConnector()
+    test_etabs.connect()
+    test_etabs.open_model(test_etabs.model_path)
+    test_etabs.run_analysis()
+    test_etabs.run_concrete_design()
+    concrete_data = test_etabs.get_concrete_data()
+    print(concrete_data)
