@@ -114,15 +114,12 @@ class ETABSConnector:
         except Exception as e:
             print(f"Error running concrete design: {e}")
             return False
-
-    def get_concrete_data(self):
+        
+    def get_data(self, table_name):
         # Check ETABS API Connection
         if not self.is_connected or not self.model_path:
             return {}
-
-        # Set table name
-        table_name = "Material Properties - Concrete Data"
-
+        
         try:
             # Get all raw data
             concrete_data = self.sap_model.DatabaseTables.GetTableForDisplayArray(
@@ -131,7 +128,7 @@ class ETABSConnector:
 
             # Check if retrieval was successful
             if concrete_data[5] == 0:
-                print("Concrete Frame Data Retrieved Successfully")
+                print("Data Retrieved Successfully")
 
                 # Store data in a pandas dataframe
                 headers = concrete_data[2]
@@ -146,203 +143,7 @@ class ETABSConnector:
 
             else:
                 print(
-                    f"Failed to retrieve Concrete Frame Data with code: {concrete_data[6]}"
-                )
-
-        except Exception as e:
-            return {"error": str(e)}
-
-    def get_rebar_data(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            return {}
-
-        # Set table name
-        table_name = "Material Properties - Rebar Data"
-
-        try:
-            # Get all raw data
-            rebar_data = self.sap_model.DatabaseTables.GetTableForDisplayArray(
-                table_name, [], "", 0
-            )
-
-            # Check if retrieval was successful
-            if rebar_data[5] == 0:
-                print("Rebar Data Retrieved Successfully")
-
-                # Store data in a pandas dataframe
-                headers = rebar_data[2]
-                table_data = rebar_data[4]
-                num_columns = len(headers)
-                row_list = []
-                for i in range(0, len(table_data), num_columns):
-                    row = table_data[i : i + num_columns]
-                    row_list.append(row)
-                rebar_dataframe = pd.DataFrame(row_list, columns=headers)
-                print(rebar_dataframe)
-                return rebar_dataframe
-
-            else:
-                print(f"Failed to retrieve Rebar Data with code: {rebar_data[6]}")
-
-        except Exception as e:
-            return {"error": str(e)}
-
-    def get_frame_section_rectangular(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            return {}
-
-        # Set table name
-
-        table_name = "Frame Section Property Definitions - Concrete Rectangular"
-
-        try:
-            # Get all raw data
-            frame_section_summary = (
-                self.sap_model.DatabaseTables.GetTableForDisplayArray(
-                    table_name, [], "", 0
-                )
-            )
-
-            # Check if retrieval was successful
-            if frame_section_summary[5] == 0:
-                print("Frame Section Retrieved Successfully")
-
-                # Store data in a pandas dataframe
-                headers = frame_section_summary[2]
-                table_data = frame_section_summary[4]
-                num_columns = len(headers)
-                row_list = []
-                for i in range(0, len(table_data), num_columns):
-                    row = table_data[i : i + num_columns]
-                    row_list.append(row)
-                frame_section_dataframe = pd.DataFrame(row_list, columns=headers)
-                return frame_section_dataframe
-
-            else:
-                print(
-                    f"Failed to retrieve Frame Section with code: {frame_section_summary[6]}"
-                )
-
-        except Exception as e:
-            return {"error": str(e)}
-
-    def get_frame_section_circular(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            return {}
-
-        # Set table name
-
-        table_name = "Frame Section Property Definitions - Concrete Circle"
-
-        try:
-            # Get all raw data
-            frame_section_summary = (
-                self.sap_model.DatabaseTables.GetTableForDisplayArray(
-                    table_name, [], "", 0
-                )
-            )
-
-            # Check if retrieval was successful
-            if frame_section_summary[5] == 0:
-                print("Frame Section Retrieved Successfully")
-
-                # Store data in a pandas dataframe
-                headers = frame_section_summary[2]
-                table_data = frame_section_summary[4]
-                num_columns = len(headers)
-                row_list = []
-                for i in range(0, len(table_data), num_columns):
-                    row = table_data[i : i + num_columns]
-                    row_list.append(row)
-                frame_section_dataframe = pd.DataFrame(row_list, columns=headers)
-                return frame_section_dataframe
-
-            else:
-                print(
-                    f"Failed to retrieve Frame Section with code: {frame_section_summary[6]}"
-                )
-
-        except Exception as e:
-            return {"error": str(e)}
-
-    def get_concrete_beam_flexure_envelope(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            return {}
-
-        # Set table name
-
-        table_name = f"Concrete Beam Flexure Envelope - {self.concrete_design_code}"
-
-        try:
-            # Get all raw data
-            beam_envelope_summary = (
-                self.sap_model.DatabaseTables.GetTableForDisplayArray(
-                    table_name, [], "", 0
-                )
-            )
-
-            # Check if retrieval was successful
-            if beam_envelope_summary[5] == 0:
-                print("Concrete Beam Flexure Envelope Retrieved Successfully")
-
-                # Store data in a pandas dataframe
-                headers = beam_envelope_summary[2]
-                table_data = beam_envelope_summary[4]
-                num_columns = len(headers)
-                row_list = []
-                for i in range(0, len(table_data), num_columns):
-                    row = table_data[i : i + num_columns]
-                    row_list.append(row)
-                beam_flexure_dataframe = pd.DataFrame(row_list, columns=headers)
-                return beam_flexure_dataframe
-
-            else:
-                print(
-                    f"Failed to retrieve Concrete Beam Flexure Envelope with code: {beam_envelope_summary[6]}"
-                )
-
-        except Exception as e:
-            return {"error": str(e)}
-
-    def get_concrete_beam_shear_envelope(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            return {}
-
-        # Set table name
-
-        table_name = f"Concrete Beam Shear Envelope - {self.concrete_design_code}"
-
-        try:
-            # Get all raw data
-            beam_envelope_summary = (
-                self.sap_model.DatabaseTables.GetTableForDisplayArray(
-                    table_name, [], "", 0
-                )
-            )
-
-            # Check if retrieval was successful
-            if beam_envelope_summary[5] == 0:
-                print("Concrete Beam Shear Envelope Retrieved Successfully")
-
-                # Store data in a pandas dataframe
-                headers = beam_envelope_summary[2]
-                table_data = beam_envelope_summary[4]
-                num_columns = len(headers)
-                row_list = []
-                for i in range(0, len(table_data), num_columns):
-                    row = table_data[i : i + num_columns]
-                    row_list.append(row)
-                beam_shear_dataframe = pd.DataFrame(row_list, columns=headers)
-                return beam_shear_dataframe
-
-            else:
-                print(
-                    f"Failed to retrieve Concrete Beam Shear Envelope with code: {beam_envelope_summary[6]}"
+                    f"Failed to retrieve datath code: {concrete_data[6]}"
                 )
 
         except Exception as e:
