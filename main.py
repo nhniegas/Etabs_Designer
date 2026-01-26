@@ -45,69 +45,10 @@ class ETABSApp(QMainWindow):
         self.ui.btn_flexure.clicked.connect(self.display_frame_flexure_envelope)
         self.ui.btn_shear.clicked.connect(self.display_frame_shear_envelope)
 
-    def display_material_data(self):
+
+    def display_table(self, table_name):
         self.ui.raw_data.setRowCount(0)
-        df = self.sample_material_data
-        self.ui.raw_data.setRowCount(df.shape[0])
-        self.ui.raw_data.setColumnCount(df.shape[1])
-
-        headers = [str(col) for col in df.columns.tolist()]
-        self.ui.raw_data.setHorizontalHeaderLabels(headers)
-
-        for i in range(df.shape[0]):
-            for j in range(df.shape[1]):
-                value = str(df.iat[i, j])
-                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
-
-    def display_frame_section_properties(self):
-        self.ui.raw_data.setRowCount(0)
-
-        df = self.sample_frame_section_properties
-        self.ui.raw_data.setRowCount(df.shape[0])
-        self.ui.raw_data.setColumnCount(df.shape[1])
-
-        headers = [str(col) for col in df.columns.tolist()]
-        self.ui.raw_data.setHorizontalHeaderLabels(headers)
-
-        for i in range(df.shape[0]):
-            for j in range(df.shape[1]):
-                value = str(df.iat[i, j])
-                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
-
-    def display_frame_assignment(self):
-        self.ui.raw_data.setRowCount(0)
-
-        df = self.sample_frame_assignment
-        self.ui.raw_data.setRowCount(df.shape[0])
-        self.ui.raw_data.setColumnCount(df.shape[1])
-
-        headers = [str(col) for col in df.columns.tolist()]
-        self.ui.raw_data.setHorizontalHeaderLabels(headers)
-
-        for i in range(df.shape[0]):
-            for j in range(df.shape[1]):
-                value = str(df.iat[i, j])
-                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
-
-    def display_frame_flexure_envelope(self):
-        self.ui.raw_data.setRowCount(0)
-
-        df = self.sample_beam_flexure_envelope
-        self.ui.raw_data.setRowCount(df.shape[0])
-        self.ui.raw_data.setColumnCount(df.shape[1])
-
-        headers = [str(col) for col in df.columns.tolist()]
-        self.ui.raw_data.setHorizontalHeaderLabels(headers)
-
-        for i in range(df.shape[0]):
-            for j in range(df.shape[1]):
-                value = str(df.iat[i, j])
-                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
-
-    def display_frame_shear_envelope(self):
-        self.ui.raw_data.setRowCount(0)
-
-        df = self.sample_beam_shear_envelope
+        df = table_name
         self.ui.raw_data.setRowCount(df.shape[0])
         self.ui.raw_data.setColumnCount(df.shape[1])
 
