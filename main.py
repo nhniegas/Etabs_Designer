@@ -37,13 +37,11 @@ class ETABSApp(QMainWindow):
         except Exception as e:
             print(f"Error loading sample data: {e}")
 
-        self.ui.btn_material_data.clicked.connect(self.display_material_data)
-        self.ui.btn_frame_property.clicked.connect(
-            self.display_frame_section_properties
-        )
-        self.ui.btn_frame_assignment.clicked.connect(self.display_frame_assignment)
-        self.ui.btn_flexure.clicked.connect(self.display_frame_flexure_envelope)
-        self.ui.btn_shear.clicked.connect(self.display_frame_shear_envelope)
+        self.ui.btn_material_data.clicked.connect(self.display_table())
+        self.ui.btn_frame_property.clicked.connect(self.display_table())
+        self.ui.btn_frame_assignment.clicked.connect(self.display_table())
+        self.ui.btn_flexure.clicked.connect(self.display_table())
+        self.ui.btn_shear.clicked.connect(self.display_table())
 
 
     def display_table(self, table_name):
