@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1180</width>
-    <height>638</height>
+    <height>719</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,17 +18,20 @@
     <normaloff>icons/ETABS_Logo.png</normaloff>icons/ETABS_Logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0" rowspan="3">
      <widget class="QGroupBox" name="groupBox">
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>200</width>
         <height>542</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">border: none;</string>
+       <string notr="true">border: none;
+
+background-color: #f6f9ff;  /* Super Light Blue */
+border-radius: 6px;</string>
       </property>
       <property name="title">
        <string/>
@@ -36,10 +39,10 @@
       <widget class="QPushButton" name="beam_design">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>10</y>
-         <width>131</width>
-         <height>31</height>
+         <width>151</width>
+         <height>121</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -68,16 +71,26 @@ QPushButton:hover {
 }</string>
        </property>
        <property name="text">
-        <string>BEAMS</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/BEAM.png</normaloff>icons/BEAM.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>65</width>
+         <height>65</height>
+        </size>
        </property>
       </widget>
       <widget class="QPushButton" name="column_design">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>50</y>
-         <width>131</width>
-         <height>31</height>
+         <x>20</x>
+         <y>130</y>
+         <width>151</width>
+         <height>121</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -106,28 +119,207 @@ QPushButton:hover {
 }</string>
        </property>
        <property name="text">
-        <string>COLUMNS</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/COLUMN.png</normaloff>icons/COLUMN.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_auto_tagger">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>250</y>
+         <width>151</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>250</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    color: black;
+    background-color: #e0e0e0; /* Highlight on hover */
+    font-weight: bold;
+}
+
+
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/AUTO TAGGER.png</normaloff>icons/AUTO TAGGER.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
        </property>
       </widget>
      </widget>
     </item>
     <item row="0" column="1">
      <widget class="QStackedWidget" name="stackedWidget">
-      <property name="currentIndex">
-       <number>0</number>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>450</height>
+       </size>
       </property>
-      <widget class="QWidget" name="page_5">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="page_beam_desig">
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QTabWidget" name="tab_widget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
             <string>Raw Data</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="1">
+             <widget class="QPushButton" name="btn_frame_property">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>250</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    color: black;
+    background-color: #e0e0e0; /* Highlight on hover */
+    font-weight: bold;
+}</string>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="6">
+             <widget class="QTableWidget" name="raw_data"/>
+            </item>
+            <item row="0" column="3">
+             <widget class="QPushButton" name="btn_flexure">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>250</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    color: black;
+    background-color: #e0e0e0; /* Highlight on hover */
+    font-weight: bold;
+}</string>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="btn_frame_assignment">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>250</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    color: black;
+    background-color: #e0e0e0; /* Highlight on hover */
+    font-weight: bold;
+}</string>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="5">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>38</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item row="0" column="0">
              <widget class="QPushButton" name="btn_material_data">
               <property name="minimumSize">
@@ -192,118 +384,6 @@ QPushButton:hover {
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="btn_frame_property">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>250</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-              </property>
-              <property name="text">
-               <string>PushButton</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="btn_frame_assignment">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>250</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-              </property>
-              <property name="text">
-               <string>PushButton</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QPushButton" name="btn_flexure">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>250</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-              </property>
-              <property name="text">
-               <string>PushButton</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="5">
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>38</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="0" colspan="6">
-             <widget class="QTableWidget" name="raw_data"/>
-            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="tab_2">
@@ -335,7 +415,161 @@ QPushButton:hover {
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_6"/>
+      <widget class="QWidget" name="page_auto_tagger">
+       <widget class="QPushButton" name="btn_activate_auto_tagger">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>90</y>
+          <width>241</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>ACTIVATE AUTO TAGGER</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbl_input_tag">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>200</y>
+          <width>171</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MEMBER TAG:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txt_tag_name">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>200</y>
+          <width>121</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_deactivate_auto_tagger">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>90</y>
+          <width>281</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>DEACTIVATE</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cmb_tag_number">
+        <property name="geometry">
+         <rect>
+          <x>572</x>
+          <y>200</y>
+          <width>72</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cmb_tag_letter">
+        <property name="geometry">
+         <rect>
+          <x>650</x>
+          <y>200</y>
+          <width>71</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Monospac821 BT</family>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: none;
+background: transparent;</string>
+      </property>
+      <property name="text">
+       <string>CONSOLE LOG</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPlainTextEdit" name="console_log">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>10</pointsize>
+        <italic>false</italic>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #A0A0A0; /* A thin, solid gray border */
+border-radius: 4px;        /* Optional: Rounds the corners slightly */
+padding: 4px;              /* Optional: Adds space between text and border */
+
+   /* 1. The Font Chain: Try Consolas first, fail over to Courier New */
+   font-family: &quot;Consolas&quot;, &quot;Courier New&quot;, monospace;
+    
+   /* 2. Size: Logs are usually slightly smaller than normal text */
+   font-size: 10pt; 
+    </string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="plainText">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string/>
+      </property>
      </widget>
     </item>
    </layout>
@@ -353,10 +587,7 @@ QPushButton:hover {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
+    <addaction name="menu_Open"/>
    </widget>
    <widget class="QMenu" name="menuRaw_Data">
     <property name="title">
@@ -391,21 +622,6 @@ QPushButton:hover {
    <addaction name="menuExport"/>
    <addaction name="menuAbout"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionNew_2"/>
-   <addaction name="actionOpen_2"/>
-   <addaction name="actionSave_2"/>
-   <addaction name="actionSave_As"/>
-  </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
     <string>toolBar_2</string>
@@ -416,50 +632,20 @@ QPushButton:hover {
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionImport_Data"/>
+   <addaction name="actionOpenEtabs"/>
+   <addaction name="separator"/>
+   <addaction name="actionReloadData"/>
+   <addaction name="separator"/>
+   <addaction name="ActionRunDesign"/>
+   <addaction name="separator"/>
+   <addaction name="ActionDownload"/>
   </widget>
-  <widget class="QToolBar" name="toolBar_3">
-   <property name="windowTitle">
-    <string>toolBar_3</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionDesign"/>
-  </widget>
-  <widget class="QToolBar" name="toolBar_4">
-   <property name="windowTitle">
-    <string>toolBar_4</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionExport"/>
-  </widget>
-  <action name="actionNew">
-   <property name="text">
-    <string>New</string>
-   </property>
-  </action>
-  <action name="actionOpen">
+  <action name="menu_Open">
    <property name="text">
     <string>Open</string>
    </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
-  <action name="actionSave_as">
-   <property name="text">
-    <string>Save as </string>
+   <property name="shortcut">
+    <string/>
    </property>
   </action>
   <action name="actionBeam">
@@ -477,23 +663,10 @@ QPushButton:hover {
     <string>Excel</string>
    </property>
   </action>
-  <action name="actionNew_2">
+  <action name="actionOpenEtabs">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
-   </property>
-   <property name="text">
-    <string>New</string>
-   </property>
-   <property name="toolTip">
-    <string>Create New File </string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
-   </property>
-  </action>
-  <action name="actionOpen_2">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+    <iconset>
+     <normaloff>icons/OPEN.png</normaloff>icons/OPEN.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -505,38 +678,10 @@ QPushButton:hover {
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
-  <action name="actionSave_2">
+  <action name="actionReloadData">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-   <property name="toolTip">
-    <string>Save File</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
-   </property>
-  </action>
-  <action name="actionSave_As">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DocumentSaveAs"/>
-   </property>
-   <property name="text">
-    <string>Save As</string>
-   </property>
-   <property name="toolTip">
-    <string>Save As</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
-   </property>
-  </action>
-  <action name="actionImport_Data">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::ViewRefresh">
-     <normaloff>icons/icons8-import-100.png</normaloff>icons/icons8-import-100.png</iconset>
+    <iconset>
+     <normaloff>icons/RELOAD.png</normaloff>icons/RELOAD.png</iconset>
    </property>
    <property name="text">
     <string>Import Data</string>
@@ -548,10 +693,10 @@ QPushButton:hover {
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
-  <action name="actionDesign">
+  <action name="ActionRunDesign">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DocumentSend">
-     <normaloff>icons/icons8-reinforced-concrete-100.png</normaloff>icons/icons8-reinforced-concrete-100.png</iconset>
+    <iconset>
+     <normaloff>icons/RUN.png</normaloff>icons/RUN.png</iconset>
    </property>
    <property name="text">
     <string>Design</string>
@@ -563,24 +708,24 @@ QPushButton:hover {
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
-  <action name="actionExport">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::MediaTape">
-     <normaloff>icons/icons8-export-excel-100.png</normaloff>icons/icons8-export-excel-100.png</iconset>
-   </property>
-   <property name="text">
-    <string>Export </string>
-   </property>
-   <property name="toolTip">
-    <string>Export File</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
-   </property>
-  </action>
   <action name="actionNhel_Pogi_The_Creator">
    <property name="text">
     <string>Nhel Pogi The Creator</string>
+   </property>
+  </action>
+  <action name="ActionDownload">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/DOWNLOAD.png</normaloff>icons/DOWNLOAD.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download</string>
+   </property>
+   <property name="toolTip">
+    <string>Download Excel</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
  </widget>

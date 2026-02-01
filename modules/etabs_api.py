@@ -11,7 +11,6 @@ class ETABSConnector:
         self.sap_model = None
         self.program_path = ""
         self.model_path = ""
-        self.model_name = ""
         self.is_connected = False
 
         # Design parameters for concrete design
@@ -21,9 +20,6 @@ class ETABSConnector:
     def connect(self):
         self.program_path = (
             r"C:\Program Files\Computers and Structures\ETABS 22\ETABS.exe"
-        )
-        self.model_path = (
-            r"C:\Users\Acer\Desktop\Etabs_Sample_API_Test\Etabs_Sample_API_Test.EDB"
         )
 
         # Create the ETABS API Helper Object
@@ -47,22 +43,18 @@ class ETABSConnector:
             return False
 
     def open_model(self, model_path: str):
-        # Check ETABS API Connection
-        if not self.is_connected:
-            print("Not connected to ETABS. Call connect() first.")
-            return False
-
         # Verify model path exists
-        if not os.path.exists(model_path):
-            print(f"Model file not found: {model_path}")
+        self.model_path = model_path
+        if not os.path.exists(self.model_path):
+            print(f"Model file not found: {self.model_path}")
             return False
 
         self.etabs_object.ApplicationStart()
 
         try:
             # Open the model
-            self.sap_model.File.OpenFile(model_path)
-            print(f"Model opened successfully: {model_path}")
+            self.sap_model.File.OpenFile(self.model_path)
+            print(f"Model opened successfully: {self.model_path}")
             return True
 
         except Exception as e:
@@ -70,11 +62,6 @@ class ETABSConnector:
             return False
 
     def run_analysis(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            print("No model loaded. Open a model first.")
-            return False
-
         try:
             # Save the model before analysis``
             self.sap_model.File.Save(self.model_path)
@@ -93,11 +80,6 @@ class ETABSConnector:
             return False
 
     def run_concrete_design(self):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            print("No model loaded. Open a model first.")
-            return False
-
         try:
             # Set design code (example: ACI 318-14)
             self.sap_model.DesignConcrete.SetCode(self.concrete_design_code)
@@ -114,12 +96,8 @@ class ETABSConnector:
         except Exception as e:
             print(f"Error running concrete design: {e}")
             return False
-        
+
     def get_data(self, table_name):
-        # Check ETABS API Connection
-        if not self.is_connected or not self.model_path:
-            return {}
-        
         try:
             # Get all raw data
             concrete_data = self.sap_model.DatabaseTables.GetTableForDisplayArray(
@@ -142,16 +120,43 @@ class ETABSConnector:
                 return concrete_dataframe
 
             else:
-                print(
-                    f"Failed to retrieve datath code: {concrete_data[6]}"
-                )
+                print(f"Failed to retrieve datath code: {concrete_data[6]}")
 
         except Exception as e:
             return {"error": str(e)}
 
+    def get_selected_frames(self):
+        try:
+            ret = self.sap_model.SelectObj.GetSelected()
+
+            if ret[0] > 0:
+                return list(ret[2])
+            return []
+
+        except:
+            pass
+
+    def clear_selection(self):
+        if self.sap_model is None:
+            return
+
+        try:
+            self.sap_model.SelectObj.ClearSelection()
+        except:
+            pass
+
+    def refresh_view(self):
+        if self.sap_model is None:
+            return
+
+        try:
+            self.sap_model.View.RefreshView()
+        except:
+            pass
+
     def close_model(self):
         try:
-            self.sap_model.File.Save(self.model_path)
+            self.sap_model.File.Save()
             print("Model saved successfully.")
             self.etabs_object.ApplicationExit(False)
             print("ETABS application closed successfully.")
@@ -165,9 +170,3 @@ class ETABSConnector:
 
 if __name__ == "__main__":
     test_etabs = ETABSConnector()
-    test_etabs.connect()
-    test_etabs.open_model(test_etabs.model_path)
-    test_etabs.run_analysis()
-    test_etabs.run_concrete_design()
-    concrete_data = test_etabs.get_concrete_data()
-    print(concrete_data)

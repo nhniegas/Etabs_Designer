@@ -16,97 +16,68 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFormLayout, QGridLayout, QGroupBox,
-    QHeaderView, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QSpacerItem, QStackedWidget,
-    QTabWidget, QTableWidget, QTableWidgetItem, QToolBar,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QGroupBox,
+    QHeaderView, QLabel, QLineEdit, QMainWindow,
+    QMenu, QMenuBar, QPlainTextEdit, QPushButton,
+    QSizePolicy, QSpacerItem, QStackedWidget, QTabWidget,
+    QTableWidget, QTableWidgetItem, QToolBar, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1180, 638)
+        MainWindow.resize(1180, 719)
         icon = QIcon()
         icon.addFile(u"icons/ETABS_Logo.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
-        self.actionNew = QAction(MainWindow)
-        self.actionNew.setObjectName(u"actionNew")
-        self.actionOpen = QAction(MainWindow)
-        self.actionOpen.setObjectName(u"actionOpen")
-        self.actionSave = QAction(MainWindow)
-        self.actionSave.setObjectName(u"actionSave")
-        self.actionSave_as = QAction(MainWindow)
-        self.actionSave_as.setObjectName(u"actionSave_as")
+        self.menu_Open = QAction(MainWindow)
+        self.menu_Open.setObjectName(u"menu_Open")
         self.actionBeam = QAction(MainWindow)
         self.actionBeam.setObjectName(u"actionBeam")
         self.actionColumn = QAction(MainWindow)
         self.actionColumn.setObjectName(u"actionColumn")
         self.actionExcel = QAction(MainWindow)
         self.actionExcel.setObjectName(u"actionExcel")
-        self.actionNew_2 = QAction(MainWindow)
-        self.actionNew_2.setObjectName(u"actionNew_2")
-        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentNew))
-        self.actionNew_2.setIcon(icon1)
-        self.actionNew_2.setMenuRole(QAction.MenuRole.NoRole)
-        self.actionOpen_2 = QAction(MainWindow)
-        self.actionOpen_2.setObjectName(u"actionOpen_2")
-        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentOpen))
-        self.actionOpen_2.setIcon(icon2)
-        self.actionOpen_2.setMenuRole(QAction.MenuRole.NoRole)
-        self.actionSave_2 = QAction(MainWindow)
-        self.actionSave_2.setObjectName(u"actionSave_2")
-        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
-        self.actionSave_2.setIcon(icon3)
-        self.actionSave_2.setMenuRole(QAction.MenuRole.NoRole)
-        self.actionSave_As = QAction(MainWindow)
-        self.actionSave_As.setObjectName(u"actionSave_As")
-        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
-        self.actionSave_As.setIcon(icon4)
-        self.actionSave_As.setMenuRole(QAction.MenuRole.NoRole)
-        self.actionImport_Data = QAction(MainWindow)
-        self.actionImport_Data.setObjectName(u"actionImport_Data")
-        icon5 = QIcon()
-        if QIcon.hasThemeIcon(QIcon.ThemeIcon.ViewRefresh):
-            icon5 = QIcon.fromTheme(QIcon.ThemeIcon.ViewRefresh)
-        else:
-            icon5.addFile(u"icons/icons8-import-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-
-        self.actionImport_Data.setIcon(icon5)
-        self.actionImport_Data.setMenuRole(QAction.MenuRole.NoRole)
-        self.actionDesign = QAction(MainWindow)
-        self.actionDesign.setObjectName(u"actionDesign")
-        icon6 = QIcon()
-        if QIcon.hasThemeIcon(QIcon.ThemeIcon.DocumentSend):
-            icon6 = QIcon.fromTheme(QIcon.ThemeIcon.DocumentSend)
-        else:
-            icon6.addFile(u"icons/icons8-reinforced-concrete-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-
-        self.actionDesign.setIcon(icon6)
-        self.actionDesign.setMenuRole(QAction.MenuRole.NoRole)
-        self.actionExport = QAction(MainWindow)
-        self.actionExport.setObjectName(u"actionExport")
-        icon7 = QIcon()
-        if QIcon.hasThemeIcon(QIcon.ThemeIcon.MediaTape):
-            icon7 = QIcon.fromTheme(QIcon.ThemeIcon.MediaTape)
-        else:
-            icon7.addFile(u"icons/icons8-export-excel-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-
-        self.actionExport.setIcon(icon7)
-        self.actionExport.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionOpenEtabs = QAction(MainWindow)
+        self.actionOpenEtabs.setObjectName(u"actionOpenEtabs")
+        icon1 = QIcon()
+        icon1.addFile(u"icons/OPEN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.actionOpenEtabs.setIcon(icon1)
+        self.actionOpenEtabs.setMenuRole(QAction.MenuRole.NoRole)
+        self.actionReloadData = QAction(MainWindow)
+        self.actionReloadData.setObjectName(u"actionReloadData")
+        icon2 = QIcon()
+        icon2.addFile(u"icons/RELOAD.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.actionReloadData.setIcon(icon2)
+        self.actionReloadData.setMenuRole(QAction.MenuRole.NoRole)
+        self.ActionRunDesign = QAction(MainWindow)
+        self.ActionRunDesign.setObjectName(u"ActionRunDesign")
+        icon3 = QIcon()
+        icon3.addFile(u"icons/RUN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.ActionRunDesign.setIcon(icon3)
+        self.ActionRunDesign.setMenuRole(QAction.MenuRole.NoRole)
         self.actionNhel_Pogi_The_Creator = QAction(MainWindow)
         self.actionNhel_Pogi_The_Creator.setObjectName(u"actionNhel_Pogi_The_Creator")
+        self.ActionDownload = QAction(MainWindow)
+        self.ActionDownload.setObjectName(u"ActionDownload")
+        icon4 = QIcon()
+        icon4.addFile(u"icons/DOWNLOAD.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.ActionDownload.setIcon(icon4)
+        self.ActionDownload.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.formLayout = QFormLayout(self.centralwidget)
-        self.formLayout.setObjectName(u"formLayout")
+        self.gridLayout_4 = QGridLayout(self.centralwidget)
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setMinimumSize(QSize(150, 542))
-        self.groupBox.setStyleSheet(u"border: none;")
+        self.groupBox.setMinimumSize(QSize(200, 542))
+        self.groupBox.setStyleSheet(u"border: none;\n"
+"\n"
+"background-color: #f6f9ff;  /* Super Light Blue */\n"
+"border-radius: 6px;")
         self.beam_design = QPushButton(self.groupBox)
         self.beam_design.setObjectName(u"beam_design")
-        self.beam_design.setGeometry(QRect(10, 10, 131, 31))
+        self.beam_design.setGeometry(QRect(20, 10, 151, 121))
         self.beam_design.setMinimumSize(QSize(120, 0))
         self.beam_design.setMaximumSize(QSize(250, 16777215))
         self.beam_design.setStyleSheet(u"QPushButton {\n"
@@ -120,9 +91,13 @@ class Ui_MainWindow(object):
 "    background-color: #e0e0e0; /* Highlight on hover */\n"
 "    font-weight: bold;\n"
 "}")
+        icon5 = QIcon()
+        icon5.addFile(u"icons/BEAM.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.beam_design.setIcon(icon5)
+        self.beam_design.setIconSize(QSize(65, 65))
         self.column_design = QPushButton(self.groupBox)
         self.column_design.setObjectName(u"column_design")
-        self.column_design.setGeometry(QRect(10, 50, 131, 31))
+        self.column_design.setGeometry(QRect(20, 130, 151, 121))
         self.column_design.setMinimumSize(QSize(120, 0))
         self.column_design.setMaximumSize(QSize(250, 16777215))
         self.column_design.setStyleSheet(u"QPushButton {\n"
@@ -136,21 +111,112 @@ class Ui_MainWindow(object):
 "    background-color: #e0e0e0; /* Highlight on hover */\n"
 "    font-weight: bold;\n"
 "}")
+        icon6 = QIcon()
+        icon6.addFile(u"icons/COLUMN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.column_design.setIcon(icon6)
+        self.column_design.setIconSize(QSize(100, 100))
+        self.btn_auto_tagger = QPushButton(self.groupBox)
+        self.btn_auto_tagger.setObjectName(u"btn_auto_tagger")
+        self.btn_auto_tagger.setGeometry(QRect(20, 250, 151, 121))
+        self.btn_auto_tagger.setMinimumSize(QSize(120, 0))
+        self.btn_auto_tagger.setMaximumSize(QSize(250, 16777215))
+        self.btn_auto_tagger.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: black;\n"
+"    background-color: #e0e0e0; /* Highlight on hover */\n"
+"    font-weight: bold;\n"
+"}\n"
+"\n"
+"\n"
+"")
+        icon7 = QIcon()
+        icon7.addFile(u"icons/AUTO TAGGER.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btn_auto_tagger.setIcon(icon7)
+        self.btn_auto_tagger.setIconSize(QSize(100, 100))
 
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.LabelRole, self.groupBox)
+        self.gridLayout_4.addWidget(self.groupBox, 0, 0, 3, 1)
 
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.page_5 = QWidget()
-        self.page_5.setObjectName(u"page_5")
-        self.gridLayout_2 = QGridLayout(self.page_5)
+        self.stackedWidget.setMinimumSize(QSize(0, 450))
+        self.page_beam_desig = QWidget()
+        self.page_beam_desig.setObjectName(u"page_beam_desig")
+        self.gridLayout_2 = QGridLayout(self.page_beam_desig)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.tab_widget = QTabWidget(self.page_5)
+        self.tab_widget = QTabWidget(self.page_beam_desig)
         self.tab_widget.setObjectName(u"tab_widget")
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.gridLayout = QGridLayout(self.tab)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.btn_frame_property = QPushButton(self.tab)
+        self.btn_frame_property.setObjectName(u"btn_frame_property")
+        self.btn_frame_property.setMinimumSize(QSize(150, 0))
+        self.btn_frame_property.setMaximumSize(QSize(250, 16777215))
+        self.btn_frame_property.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: black;\n"
+"    background-color: #e0e0e0; /* Highlight on hover */\n"
+"    font-weight: bold;\n"
+"}")
+
+        self.gridLayout.addWidget(self.btn_frame_property, 0, 1, 1, 1)
+
+        self.raw_data = QTableWidget(self.tab)
+        self.raw_data.setObjectName(u"raw_data")
+
+        self.gridLayout.addWidget(self.raw_data, 1, 0, 1, 6)
+
+        self.btn_flexure = QPushButton(self.tab)
+        self.btn_flexure.setObjectName(u"btn_flexure")
+        self.btn_flexure.setMinimumSize(QSize(150, 0))
+        self.btn_flexure.setMaximumSize(QSize(250, 16777215))
+        self.btn_flexure.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: black;\n"
+"    background-color: #e0e0e0; /* Highlight on hover */\n"
+"    font-weight: bold;\n"
+"}")
+
+        self.gridLayout.addWidget(self.btn_flexure, 0, 3, 1, 1)
+
+        self.btn_frame_assignment = QPushButton(self.tab)
+        self.btn_frame_assignment.setObjectName(u"btn_frame_assignment")
+        self.btn_frame_assignment.setMinimumSize(QSize(150, 0))
+        self.btn_frame_assignment.setMaximumSize(QSize(250, 16777215))
+        self.btn_frame_assignment.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: black;\n"
+"    background-color: #e0e0e0; /* Highlight on hover */\n"
+"    font-weight: bold;\n"
+"}")
+
+        self.gridLayout.addWidget(self.btn_frame_assignment, 0, 2, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(38, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer, 0, 5, 1, 1)
+
         self.btn_material_data = QPushButton(self.tab)
         self.btn_material_data.setObjectName(u"btn_material_data")
         self.btn_material_data.setMinimumSize(QSize(150, 0))
@@ -187,69 +253,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.btn_shear, 0, 4, 1, 1)
 
-        self.btn_frame_property = QPushButton(self.tab)
-        self.btn_frame_property.setObjectName(u"btn_frame_property")
-        self.btn_frame_property.setMinimumSize(QSize(150, 0))
-        self.btn_frame_property.setMaximumSize(QSize(250, 16777215))
-        self.btn_frame_property.setStyleSheet(u"QPushButton {\n"
-"    border: none;             /* No button border */\n"
-"    background: transparent;  /* No grey background */\n"
-"    text-align: center;         /* Align text like a label */\n"
-"    padding: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: black;\n"
-"    background-color: #e0e0e0; /* Highlight on hover */\n"
-"    font-weight: bold;\n"
-"}")
-
-        self.gridLayout.addWidget(self.btn_frame_property, 0, 1, 1, 1)
-
-        self.btn_frame_assignment = QPushButton(self.tab)
-        self.btn_frame_assignment.setObjectName(u"btn_frame_assignment")
-        self.btn_frame_assignment.setMinimumSize(QSize(150, 0))
-        self.btn_frame_assignment.setMaximumSize(QSize(250, 16777215))
-        self.btn_frame_assignment.setStyleSheet(u"QPushButton {\n"
-"    border: none;             /* No button border */\n"
-"    background: transparent;  /* No grey background */\n"
-"    text-align: center;         /* Align text like a label */\n"
-"    padding: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: black;\n"
-"    background-color: #e0e0e0; /* Highlight on hover */\n"
-"    font-weight: bold;\n"
-"}")
-
-        self.gridLayout.addWidget(self.btn_frame_assignment, 0, 2, 1, 1)
-
-        self.btn_flexure = QPushButton(self.tab)
-        self.btn_flexure.setObjectName(u"btn_flexure")
-        self.btn_flexure.setMinimumSize(QSize(150, 0))
-        self.btn_flexure.setMaximumSize(QSize(250, 16777215))
-        self.btn_flexure.setStyleSheet(u"QPushButton {\n"
-"    border: none;             /* No button border */\n"
-"    background: transparent;  /* No grey background */\n"
-"    text-align: center;         /* Align text like a label */\n"
-"    padding: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: black;\n"
-"    background-color: #e0e0e0; /* Highlight on hover */\n"
-"    font-weight: bold;\n"
-"}")
-
-        self.gridLayout.addWidget(self.btn_flexure, 0, 3, 1, 1)
-
-        self.horizontalSpacer = QSpacerItem(38, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer, 0, 5, 1, 1)
-
-        self.raw_data = QTableWidget(self.tab)
-        self.raw_data.setObjectName(u"raw_data")
-
-        self.gridLayout.addWidget(self.raw_data, 1, 0, 1, 6)
-
         self.tab_widget.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
@@ -270,12 +273,72 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.tab_widget, 0, 0, 1, 1)
 
-        self.stackedWidget.addWidget(self.page_5)
-        self.page_6 = QWidget()
-        self.page_6.setObjectName(u"page_6")
-        self.stackedWidget.addWidget(self.page_6)
+        self.stackedWidget.addWidget(self.page_beam_desig)
+        self.page_auto_tagger = QWidget()
+        self.page_auto_tagger.setObjectName(u"page_auto_tagger")
+        self.btn_activate_auto_tagger = QPushButton(self.page_auto_tagger)
+        self.btn_activate_auto_tagger.setObjectName(u"btn_activate_auto_tagger")
+        self.btn_activate_auto_tagger.setGeometry(QRect(140, 90, 241, 51))
+        self.lbl_input_tag = QLabel(self.page_auto_tagger)
+        self.lbl_input_tag.setObjectName(u"lbl_input_tag")
+        self.lbl_input_tag.setGeometry(QRect(180, 200, 171, 61))
+        font = QFont()
+        font.setPointSize(20)
+        self.lbl_input_tag.setFont(font)
+        self.txt_tag_name = QLineEdit(self.page_auto_tagger)
+        self.txt_tag_name.setObjectName(u"txt_tag_name")
+        self.txt_tag_name.setGeometry(QRect(440, 200, 121, 61))
+        self.txt_tag_name.setFont(font)
+        self.btn_deactivate_auto_tagger = QPushButton(self.page_auto_tagger)
+        self.btn_deactivate_auto_tagger.setObjectName(u"btn_deactivate_auto_tagger")
+        self.btn_deactivate_auto_tagger.setGeometry(QRect(440, 90, 281, 51))
+        self.cmb_tag_number = QComboBox(self.page_auto_tagger)
+        self.cmb_tag_number.setObjectName(u"cmb_tag_number")
+        self.cmb_tag_number.setGeometry(QRect(572, 200, 72, 61))
+        self.cmb_tag_number.setFont(font)
+        self.cmb_tag_number.setStyleSheet(u"")
+        self.cmb_tag_number.setEditable(True)
+        self.cmb_tag_letter = QComboBox(self.page_auto_tagger)
+        self.cmb_tag_letter.setObjectName(u"cmb_tag_letter")
+        self.cmb_tag_letter.setGeometry(QRect(650, 200, 71, 61))
+        self.cmb_tag_letter.setFont(font)
+        self.cmb_tag_letter.setEditable(True)
+        self.stackedWidget.addWidget(self.page_auto_tagger)
 
-        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.stackedWidget)
+        self.gridLayout_4.addWidget(self.stackedWidget, 0, 1, 1, 1)
+
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+        font1 = QFont()
+        font1.setFamilies([u"Monospac821 BT"])
+        font1.setBold(True)
+        self.label.setFont(font1)
+        self.label.setStyleSheet(u"border: none;\n"
+"background: transparent;")
+
+        self.gridLayout_4.addWidget(self.label, 1, 1, 1, 1)
+
+        self.console_log = QPlainTextEdit(self.centralwidget)
+        self.console_log.setObjectName(u"console_log")
+        self.console_log.setMinimumSize(QSize(0, 50))
+        font2 = QFont()
+        font2.setFamilies([u"Consolas"])
+        font2.setPointSize(10)
+        font2.setItalic(False)
+        self.console_log.setFont(font2)
+        self.console_log.setStyleSheet(u"border: 1px solid #A0A0A0; /* A thin, solid gray border */\n"
+"border-radius: 4px;        /* Optional: Rounds the corners slightly */\n"
+"padding: 4px;              /* Optional: Adds space between text and border */\n"
+"\n"
+"   /* 1. The Font Chain: Try Consolas first, fail over to Courier New */\n"
+"   font-family: \"Consolas\", \"Courier New\", monospace;\n"
+"    \n"
+"   /* 2. Size: Logs are usually slightly smaller than normal text */\n"
+"   font-size: 10pt; \n"
+"    ")
+        self.console_log.setReadOnly(True)
+
+        self.gridLayout_4.addWidget(self.console_log, 2, 1, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -292,28 +355,16 @@ class Ui_MainWindow(object):
         self.menuAbout = QMenu(self.menubar)
         self.menuAbout.setObjectName(u"menuAbout")
         MainWindow.setMenuBar(self.menubar)
-        self.toolBar = QToolBar(MainWindow)
-        self.toolBar.setObjectName(u"toolBar")
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
         self.toolBar_2 = QToolBar(MainWindow)
         self.toolBar_2.setObjectName(u"toolBar_2")
         MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar_2)
-        self.toolBar_3 = QToolBar(MainWindow)
-        self.toolBar_3.setObjectName(u"toolBar_3")
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar_3)
-        self.toolBar_4 = QToolBar(MainWindow)
-        self.toolBar_4.setObjectName(u"toolBar_4")
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar_4)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuRaw_Data.menuAction())
         self.menubar.addAction(self.menuDesigner.menuAction())
         self.menubar.addAction(self.menuExport.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
-        self.menuFile.addAction(self.actionNew)
-        self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionSave)
-        self.menuFile.addAction(self.actionSave_as)
+        self.menuFile.addAction(self.menu_Open)
         self.menuDesigner.addAction(self.actionBeam)
         self.menuDesigner.addAction(self.actionColumn)
         self.menuExport.addAction(self.actionExcel)
@@ -321,18 +372,18 @@ class Ui_MainWindow(object):
         self.menuExport.addSeparator()
         self.menuExport.addSeparator()
         self.menuAbout.addAction(self.actionNhel_Pogi_The_Creator)
-        self.toolBar.addAction(self.actionNew_2)
-        self.toolBar.addAction(self.actionOpen_2)
-        self.toolBar.addAction(self.actionSave_2)
-        self.toolBar.addAction(self.actionSave_As)
-        self.toolBar_2.addAction(self.actionImport_Data)
-        self.toolBar_3.addAction(self.actionDesign)
-        self.toolBar_4.addAction(self.actionExport)
+        self.toolBar_2.addAction(self.actionOpenEtabs)
+        self.toolBar_2.addSeparator()
+        self.toolBar_2.addAction(self.actionReloadData)
+        self.toolBar_2.addSeparator()
+        self.toolBar_2.addAction(self.ActionRunDesign)
+        self.toolBar_2.addSeparator()
+        self.toolBar_2.addAction(self.ActionDownload)
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
-        self.tab_widget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(1)
+        self.tab_widget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -340,61 +391,53 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Etabs_Designer", None))
-        self.actionNew.setText(QCoreApplication.translate("MainWindow", u"New", None))
-        self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.actionSave.setText(QCoreApplication.translate("MainWindow", u"Save", None))
-        self.actionSave_as.setText(QCoreApplication.translate("MainWindow", u"Save as ", None))
+        self.menu_Open.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+#if QT_CONFIG(shortcut)
+        self.menu_Open.setShortcut("")
+#endif // QT_CONFIG(shortcut)
         self.actionBeam.setText(QCoreApplication.translate("MainWindow", u"Beam", None))
         self.actionColumn.setText(QCoreApplication.translate("MainWindow", u"Column ", None))
         self.actionExcel.setText(QCoreApplication.translate("MainWindow", u"Excel", None))
-        self.actionNew_2.setText(QCoreApplication.translate("MainWindow", u"New", None))
+        self.actionOpenEtabs.setText(QCoreApplication.translate("MainWindow", u"Open", None))
 #if QT_CONFIG(tooltip)
-        self.actionNew_2.setToolTip(QCoreApplication.translate("MainWindow", u"Create New File ", None))
+        self.actionOpenEtabs.setToolTip(QCoreApplication.translate("MainWindow", u"Open File", None))
 #endif // QT_CONFIG(tooltip)
-        self.actionOpen_2.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+        self.actionReloadData.setText(QCoreApplication.translate("MainWindow", u"Import Data", None))
 #if QT_CONFIG(tooltip)
-        self.actionOpen_2.setToolTip(QCoreApplication.translate("MainWindow", u"Open File", None))
+        self.actionReloadData.setToolTip(QCoreApplication.translate("MainWindow", u"Import Data", None))
 #endif // QT_CONFIG(tooltip)
-        self.actionSave_2.setText(QCoreApplication.translate("MainWindow", u"Save", None))
+        self.ActionRunDesign.setText(QCoreApplication.translate("MainWindow", u"Design", None))
 #if QT_CONFIG(tooltip)
-        self.actionSave_2.setToolTip(QCoreApplication.translate("MainWindow", u"Save File", None))
-#endif // QT_CONFIG(tooltip)
-        self.actionSave_As.setText(QCoreApplication.translate("MainWindow", u"Save As", None))
-#if QT_CONFIG(tooltip)
-        self.actionSave_As.setToolTip(QCoreApplication.translate("MainWindow", u"Save As", None))
-#endif // QT_CONFIG(tooltip)
-        self.actionImport_Data.setText(QCoreApplication.translate("MainWindow", u"Import Data", None))
-#if QT_CONFIG(tooltip)
-        self.actionImport_Data.setToolTip(QCoreApplication.translate("MainWindow", u"Import Data", None))
-#endif // QT_CONFIG(tooltip)
-        self.actionDesign.setText(QCoreApplication.translate("MainWindow", u"Design", None))
-#if QT_CONFIG(tooltip)
-        self.actionDesign.setToolTip(QCoreApplication.translate("MainWindow", u"Design Members", None))
-#endif // QT_CONFIG(tooltip)
-        self.actionExport.setText(QCoreApplication.translate("MainWindow", u"Export ", None))
-#if QT_CONFIG(tooltip)
-        self.actionExport.setToolTip(QCoreApplication.translate("MainWindow", u"Export File", None))
+        self.ActionRunDesign.setToolTip(QCoreApplication.translate("MainWindow", u"Design Members", None))
 #endif // QT_CONFIG(tooltip)
         self.actionNhel_Pogi_The_Creator.setText(QCoreApplication.translate("MainWindow", u"Nhel Pogi The Creator", None))
+        self.ActionDownload.setText(QCoreApplication.translate("MainWindow", u"Download", None))
+#if QT_CONFIG(tooltip)
+        self.ActionDownload.setToolTip(QCoreApplication.translate("MainWindow", u"Download Excel", None))
+#endif // QT_CONFIG(tooltip)
         self.groupBox.setTitle("")
-        self.beam_design.setText(QCoreApplication.translate("MainWindow", u"BEAMS", None))
-        self.column_design.setText(QCoreApplication.translate("MainWindow", u"COLUMNS", None))
+        self.beam_design.setText("")
+        self.column_design.setText("")
+        self.btn_auto_tagger.setText("")
+        self.btn_frame_property.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.btn_flexure.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.btn_frame_assignment.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.btn_material_data.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.btn_shear.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.btn_frame_property.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.btn_frame_assignment.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.btn_flexure.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Raw Data", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Designer", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Export ", None))
+        self.btn_activate_auto_tagger.setText(QCoreApplication.translate("MainWindow", u"ACTIVATE AUTO TAGGER", None))
+        self.lbl_input_tag.setText(QCoreApplication.translate("MainWindow", u"MEMBER TAG:", None))
+        self.btn_deactivate_auto_tagger.setText(QCoreApplication.translate("MainWindow", u"DEACTIVATE", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"CONSOLE LOG", None))
+        self.console_log.setPlainText("")
+        self.console_log.setPlaceholderText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuRaw_Data.setTitle(QCoreApplication.translate("MainWindow", u"Import Data", None))
         self.menuDesigner.setTitle(QCoreApplication.translate("MainWindow", u"Designer ", None))
         self.menuExport.setTitle(QCoreApplication.translate("MainWindow", u"Export ", None))
         self.menuAbout.setTitle(QCoreApplication.translate("MainWindow", u"About", None))
-        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
         self.toolBar_2.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar_2", None))
-        self.toolBar_3.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar_3", None))
-        self.toolBar_4.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar_4", None))
     # retranslateUi
 
