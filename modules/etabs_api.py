@@ -130,8 +130,8 @@ class ETABSConnector:
             ret = self.sap_model.SelectObj.GetSelected()
 
             if ret[0] > 0:
-                return list(ret[2])
-            return []
+                return ret[2][0]
+            return None
 
         except:
             pass

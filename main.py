@@ -14,20 +14,23 @@ from modules.etabs_api import ETABSConnector
 class ETABSApp(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+        # FORCE the initial state (Text + Icon)
+        self.ui.btn_toggle_auto_tagger.setText("▶ ACTIVATE AUTO TAGGER")
+
+        # Ensure it starts with the default gray style (not red)
+        self.ui.btn_toggle_auto_tagger.setStyleSheet("")
 
         # Redirect stdout to the GUI
         self.sys_stdout = EmittingStream()
         self.sys_stdout.textWritten.connect(self.append_log)
-
         sys.stdout = self.sys_stdout
-
-        # Initialize the UI class
-        self.ui = Ui_MainWindow()
 
         # Call setupUi to draw the designer layout on this window
         try:
             self.etabs = ETABSConnector()
-            self.ui.setupUi(self)
 
             self.sample_material_data = pd.read_csv("sample/sample_material_data.csv")
             self.sample_frame_section_properties = pd.read_csv(
@@ -71,54 +74,85 @@ class ETABSApp(QMainWindow):
             lambda: self.animate_click(self.ui.btn_auto_tagger)
         )
 
-        # Activate Auto-Tagger Functionality
-        self.ui.btn_activate_auto_tagger.clicked.connect(
-            lambda: self.activate_auto_tagger()
+        # Toggle Auto-Tagger Functionality
+        self.ui.btn_toggle_auto_tagger.setFocus()
+        self.ui.btn_toggle_auto_tagger.clicked.connect(
+            lambda: self.toggle_auto_tagger()
         )
 
-        # De-activate Auto-Tagger Functionality
-        self.ui.btn_deactivate_auto_tagger.clicked.connect(
-            lambda: self.deactivate_auto_tagger()
-        )
+        # Set Default Tag Name
+        self.ui.txt_tag_name.clear()
+        self.ui.txt_tag_name.setPlaceholderText("e.g. FTBX")
 
         # Generate Number Items for ComboBox
         number_list = [str(i) for i in range(1, 101)]
+        alphabet_list = ["-"] + list(string.ascii_uppercase)
         self.ui.cmb_tag_number.addItems(number_list)
+        self.ui.cmb_tag_letter.addItems(alphabet_list)
         self.ui.cmb_tag_number.view().setVerticalScrollBarPolicy(
             Qt.ScrollBarPolicy.ScrollBarAsNeeded
         )
+
+        self.ui.cmb_tag_letter.view().setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
+        )
         self.ui.cmb_tag_number.view().setAutoScroll(True)
+        self.ui.cmb_tag_letter.view().setAutoScroll(True)
         self.ui.cmb_tag_number.setStyleSheet("QComboBox { combobox-popup: 0; }")
+        self.ui.cmb_tag_letter.setStyleSheet("QComboBox { combobox-popup: 0; }")
         self.ui.cmb_tag_number.setMaxVisibleItems(10)
+        self.ui.cmb_tag_letter.setMaxVisibleItems(10)
+
+        self.ui.cmb_tag_number.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.ui.cmb_tag_letter.lineEdit().setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Open Etabs Model
         self.ui.menu_Open.triggered.connect(lambda: self.open_model())
 
-    def activate_auto_tagger(self):
-        """if self.check_etabs_connection() is False:
-        return"""
-
-        try:
-            self.last_selection = []
-            self.selection_timer = QTimer()
-            self.selection_timer.setInterval(1000)
-            self.selection_timer.timeout.connect(self.check_etabs_selection)
-            self.selection_timer.start()
-            print("Auto-Tagger Activated")
-
-        except Exception as e:
-            print(f"Error activating auto-tagger: {e}")
-
-    def deactivate_auto_tagger(self):
-        """if self.check_etabs_connection() is False:
-        return"""
-
-        try:
+    def toggle_auto_tagger(self):
+        """
+        Switches between START and STOP modes based on current status.
+        """
+        # Check if the timer is currently running
+        if hasattr(self, "selection_timer") and self.selection_timer.isActive():
+            # --- CASE: IT IS RUNNING -> STOP IT ---
             self.selection_timer.stop()
-            print("Auto-Tagger De-Activated")
 
-        except Exception as e:
-            print(f"Error deactivating auto-tagger: {e}")
+            # 1. Update Button Appearance (Back to "Play")
+            self.ui.btn_toggle_auto_tagger.setText("▶ ACTIVATE AUTO TAGGER")
+            self.ui.btn_toggle_auto_tagger.setStyleSheet("")  # Reset to default color
+
+            # 2. Log and Feedback
+            print("Auto-Tagger deactivated.")
+
+        else:
+            # --- CASE: IT IS STOPPED -> START IT ---
+
+            # 1. Start the Timer (Reuse your existing start logic)
+            # Make sure you have created the timer before calling start()
+            if not hasattr(self, "selection_timer"):
+                from PySide6.QtCore import QTimer
+
+                self.selection_timer = QTimer()
+                self.selection_timer.timeout.connect(
+                    self.check_etabs_selection
+                )  # Your scan function
+
+            self.selection_timer.start(1000)  # Run every 1 second
+
+            # 2. Update Button Appearance (Change to "Stop")
+            self.ui.btn_toggle_auto_tagger.setText("■ STOP AUTO TAGGER")
+
+            # 3. Change Button Color to Red (Visual Warning)
+            self.ui.btn_toggle_auto_tagger.setStyleSheet("""
+                background-color: #FFCDD2; 
+                color: #C62828; 
+                border: 1px solid #E57373;
+                border-radius: 4px;
+            """)
+
+            # 4. Log
+            print("Auto-Tagger activated.")
 
     def check_etabs_selection(self):
         """if self.check_etabs_connection() is False:
@@ -131,16 +165,32 @@ class ETABSApp(QMainWindow):
                 return
             else:
                 print(f"New Selection Detected: {self.last_selection}")
+                self.change_unique_name(self.last_selection)
                 self.etabs.clear_selection()
                 self.etabs.refresh_view()
 
-                import pandas as pd
-
-                df = pd.DataFrame(self.last_selection, columns=["Unique Name"])
-                self.display_table(df)
-
         except:
             pass
+
+    def change_unique_name(self, extracted_unique_name):
+        try:
+            current_unique_name = extracted_unique_name
+            new_unique_name = f"{self.ui.txt_tag_name.text()}-{self.ui.cmb_tag_number.currentText()}{self.ui.cmb_tag_letter.currentText()}"
+
+            ret = self.etabs.sap_model.FrameObj.ChangeName(
+                current_unique_name, new_unique_name
+            )
+
+            if ret == 0:
+                print(
+                    f"Renamed {current_unique_name} to {new_unique_name} successfully."
+                )
+
+            else:
+                print(f"Failed to rename {current_unique_name}. Error code: {ret}")
+
+        except Exception as e:
+            print(f"Exception occurred while renaming: {e}")
 
     def open_model(self):
         from PySide6.QtWidgets import QFileDialog, QProgressDialog, QApplication
