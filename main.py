@@ -80,6 +80,9 @@ class ETABSApp(QMainWindow):
             lambda: self.toggle_auto_tagger()
         )
 
+        self.ui.txt_tag_name.textChanged.connect(self.on_prefix_changed)
+        self.ui.cmb_tag_number.currentIndexChanged.connect(self.on_number_changed)
+
         # Set Default Tag Name
         self.ui.txt_tag_name.clear()
         self.ui.txt_tag_name.setPlaceholderText("e.g. FTBX")
@@ -109,6 +112,8 @@ class ETABSApp(QMainWindow):
         # Open Etabs Model
         self.ui.menu_Open.triggered.connect(lambda: self.open_model())
 
+        self.update_ui_state(False)
+
     def toggle_auto_tagger(self):
         """
         Switches between START and STOP modes based on current status.
@@ -121,6 +126,7 @@ class ETABSApp(QMainWindow):
             # 1. Update Button Appearance (Back to "Play")
             self.ui.btn_toggle_auto_tagger.setText("▶ ACTIVATE AUTO TAGGER")
             self.ui.btn_toggle_auto_tagger.setStyleSheet("")  # Reset to default color
+            self.update_ui_state(False)
 
             # 2. Log and Feedback
             print("Auto-Tagger deactivated.")
@@ -139,7 +145,7 @@ class ETABSApp(QMainWindow):
                 )  # Your scan function
 
             self.selection_timer.start(1000)  # Run every 1 second
-
+            self.update_ui_state(True)
             # 2. Update Button Appearance (Change to "Stop")
             self.ui.btn_toggle_auto_tagger.setText("■ STOP AUTO TAGGER")
 
@@ -159,7 +165,7 @@ class ETABSApp(QMainWindow):
         return"""
 
         try:
-            self.last_selection = self.etabs.get_selected_frames()
+            self.last_selection = self.etabs.get_unique_name()
 
             if self.last_selection == [] or self.last_selection is None:
                 return
@@ -175,7 +181,11 @@ class ETABSApp(QMainWindow):
     def change_unique_name(self, extracted_unique_name):
         try:
             current_unique_name = extracted_unique_name
-            new_unique_name = f"{self.ui.txt_tag_name.text()}-{self.ui.cmb_tag_number.currentText()}{self.ui.cmb_tag_letter.currentText()}"
+
+            if self.ui.cmb_tag_letter.currentText() == "-":
+                new_unique_name = f"{self.ui.txt_tag_name.text()}-{self.ui.cmb_tag_number.currentText()}"
+            else:
+                new_unique_name = f"{self.ui.txt_tag_name.text()}-{self.ui.cmb_tag_number.currentText()}{self.ui.cmb_tag_letter.currentText()}"
 
             ret = self.etabs.sap_model.FrameObj.ChangeName(
                 current_unique_name, new_unique_name
@@ -186,11 +196,59 @@ class ETABSApp(QMainWindow):
                     f"Renamed {current_unique_name} to {new_unique_name} successfully."
                 )
 
+                self.ui.cmb_tag_number.blockSignals(True)
+                self.ui.cmb_tag_letter.blockSignals(True)
+                current_Index = self.ui.cmb_tag_letter.currentIndex()
+                self.ui.cmb_tag_number.blockSignals(False)
+                self.ui.cmb_tag_letter.blockSignals(False)
+
+                if current_Index < self.ui.cmb_tag_letter.count() - 1:
+                    self.ui.cmb_tag_letter.setCurrentIndex(current_Index + 1)
+
             else:
                 print(f"Failed to rename {current_unique_name}. Error code: {ret}")
 
         except Exception as e:
             print(f"Exception occurred while renaming: {e}")
+
+    def update_ui_state(self, is_active):
+        """
+        Enables/Disables inputs based on whether the tool is active.
+        """
+        self.ui.txt_tag_name.setEnabled(is_active)
+        self.ui.cmb_tag_number.setEnabled(is_active)
+        self.ui.cmb_tag_letter.setEnabled(is_active)
+
+        if not is_active:
+            style = """
+            QComboBox {
+                background-color: white;
+                color: black;
+                border: 1px solid #AAA;
+            }
+            QComboBox:disabled {
+                background-color: #F0F0F0;  /* Light Grey Background */
+                color: #A0A0A0;             /* Dim Grey Text */
+                border: 1px solid #D0D0D0;
+            }
+            """
+            self.ui.cmb_tag_number.setStyleSheet(style)
+            self.ui.cmb_tag_letter.setStyleSheet(style)
+
+    def on_prefix_changed(self):
+        """
+        If Prefix changes (e.g. C -> B), reset Number and Letter to Index 0.
+        """
+        # Block signals temporarily if you want to prevent chain reactions,
+        # but here we want a hard reset, so we just set them.
+        self.ui.cmb_tag_number.setCurrentIndex(0)
+        self.ui.cmb_tag_letter.setCurrentIndex(0)
+
+    def on_number_changed(self):
+        """
+        If Number changes (e.g. 4 -> 5), reset Letter to Index 0 (-).
+        """
+        self.ui.cmb_tag_letter.setCurrentIndex(0)
 
     def open_model(self):
         from PySide6.QtWidgets import QFileDialog, QProgressDialog, QApplication

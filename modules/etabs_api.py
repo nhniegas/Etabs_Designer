@@ -125,7 +125,7 @@ class ETABSConnector:
         except Exception as e:
             return {"error": str(e)}
 
-    def get_selected_frames(self):
+    def get_unique_name(self):
         try:
             ret = self.sap_model.SelectObj.GetSelected()
 

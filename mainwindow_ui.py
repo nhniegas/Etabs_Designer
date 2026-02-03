@@ -16,17 +16,23 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QGroupBox,
-    QHeaderView, QLabel, QLineEdit, QMainWindow,
-    QMenu, QMenuBar, QPlainTextEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QStackedWidget, QTabWidget,
-    QTableWidget, QTableWidgetItem, QToolBar, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QGridLayout,
+    QGroupBox, QHeaderView, QLabel, QLineEdit,
+    QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QStackedWidget, QTabWidget, QTableWidget, QTableWidgetItem,
+    QToolBar, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1180, 719)
+        MainWindow.resize(1381, 742)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
         icon = QIcon()
         icon.addFile(u"icons/ETABS_Logo.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
@@ -68,18 +74,29 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_4 = QGridLayout(self.centralwidget)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        font = QFont()
-        font.setFamilies([u"Monospac821 BT"])
-        font.setBold(True)
-        self.label.setFont(font)
-        self.label.setStyleSheet(u"border: none;\n"
-"background: transparent;")
-
-        self.gridLayout_4.addWidget(self.label, 1, 1, 1, 1)
-
-        self.groupBox = QGroupBox(self.centralwidget)
+        self.gridLayout_4.setVerticalSpacing(0)
+        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.scrollArea = QScrollArea(self.centralwidget)
+        self.scrollArea.setObjectName(u"scrollArea")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy1)
+        self.scrollArea.setMinimumSize(QSize(0, 0))
+        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.scrollArea.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1377, 671))
+        sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
+        self.scrollAreaWidgetContents.setMinimumSize(QSize(0, 0))
+        self.gridLayout_5 = QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.groupBox = QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setMinimumSize(QSize(200, 542))
         self.groupBox.setStyleSheet(u"border: none;\n"
@@ -150,33 +167,11 @@ class Ui_MainWindow(object):
         self.btn_auto_tagger.setIcon(icon7)
         self.btn_auto_tagger.setIconSize(QSize(100, 100))
 
-        self.gridLayout_4.addWidget(self.groupBox, 0, 0, 3, 1)
+        self.gridLayout_5.addWidget(self.groupBox, 0, 0, 1, 1)
 
-        self.console_log = QPlainTextEdit(self.centralwidget)
-        self.console_log.setObjectName(u"console_log")
-        self.console_log.setMinimumSize(QSize(0, 50))
-        font1 = QFont()
-        font1.setFamilies([u"Consolas"])
-        font1.setPointSize(10)
-        font1.setItalic(False)
-        self.console_log.setFont(font1)
-        self.console_log.setStyleSheet(u"border: 1px solid #A0A0A0; /* A thin, solid gray border */\n"
-"border-radius: 4px;        /* Optional: Rounds the corners slightly */\n"
-"padding: 4px;              /* Optional: Adds space between text and border */\n"
-"\n"
-"   /* 1. The Font Chain: Try Consolas first, fail over to Courier New */\n"
-"   font-family: \"Consolas\", \"Courier New\", monospace;\n"
-"    \n"
-"   /* 2. Size: Logs are usually slightly smaller than normal text */\n"
-"   font-size: 10pt; \n"
-"    ")
-        self.console_log.setReadOnly(True)
-
-        self.gridLayout_4.addWidget(self.console_log, 2, 1, 1, 1)
-
-        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.stackedWidget = QStackedWidget(self.scrollAreaWidgetContents)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setMinimumSize(QSize(0, 450))
+        self.stackedWidget.setMinimumSize(QSize(1000, 450))
         self.page_beam_desig = QWidget()
         self.page_beam_desig.setObjectName(u"page_beam_desig")
         self.gridLayout_2 = QGridLayout(self.page_beam_desig)
@@ -311,49 +306,85 @@ class Ui_MainWindow(object):
         self.page_auto_tagger.setObjectName(u"page_auto_tagger")
         self.btn_toggle_auto_tagger = QPushButton(self.page_auto_tagger)
         self.btn_toggle_auto_tagger.setObjectName(u"btn_toggle_auto_tagger")
-        self.btn_toggle_auto_tagger.setGeometry(QRect(400, 100, 341, 41))
+        self.btn_toggle_auto_tagger.setGeometry(QRect(400, 110, 341, 41))
         self.groupBox_2 = QGroupBox(self.page_auto_tagger)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(240, 170, 661, 151))
+        self.groupBox_2.setGeometry(QRect(240, 180, 661, 151))
         self.lbl_input_tag = QLabel(self.groupBox_2)
         self.lbl_input_tag.setObjectName(u"lbl_input_tag")
         self.lbl_input_tag.setGeometry(QRect(50, 40, 171, 61))
-        font2 = QFont()
-        font2.setPointSize(20)
-        self.lbl_input_tag.setFont(font2)
+        font = QFont()
+        font.setPointSize(20)
+        self.lbl_input_tag.setFont(font)
         self.txt_tag_name = QLineEdit(self.groupBox_2)
         self.txt_tag_name.setObjectName(u"txt_tag_name")
+        self.txt_tag_name.setEnabled(True)
         self.txt_tag_name.setGeometry(QRect(250, 50, 151, 41))
-        self.txt_tag_name.setFont(font2)
+        self.txt_tag_name.setFont(font)
         self.txt_tag_name.setStyleSheet(u"QLineEdit {\n"
 "    placeholder-text-color: #888888; /* Forces the hint text to be Dark Grey */\n"
 "}")
         self.txt_tag_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.cmb_tag_number = QComboBox(self.groupBox_2)
         self.cmb_tag_number.setObjectName(u"cmb_tag_number")
+        self.cmb_tag_number.setEnabled(True)
         self.cmb_tag_number.setGeometry(QRect(470, 50, 72, 41))
-        self.cmb_tag_number.setFont(font2)
+        self.cmb_tag_number.setFont(font)
         self.cmb_tag_number.setStyleSheet(u"")
         self.cmb_tag_number.setEditable(True)
         self.cmb_tag_letter = QComboBox(self.groupBox_2)
         self.cmb_tag_letter.setObjectName(u"cmb_tag_letter")
+        self.cmb_tag_letter.setEnabled(True)
         self.cmb_tag_letter.setGeometry(QRect(550, 50, 71, 41))
-        self.cmb_tag_letter.setFont(font2)
+        self.cmb_tag_letter.setFont(font)
         self.cmb_tag_letter.setEditable(True)
         self.lbl_input_tag_2 = QLabel(self.groupBox_2)
         self.lbl_input_tag_2.setObjectName(u"lbl_input_tag_2")
         self.lbl_input_tag_2.setGeometry(QRect(420, 40, 41, 41))
+        font1 = QFont()
+        font1.setPointSize(50)
+        self.lbl_input_tag_2.setFont(font1)
+        self.console_log = QPlainTextEdit(self.page_auto_tagger)
+        self.console_log.setObjectName(u"console_log")
+        self.console_log.setGeometry(QRect(10, 510, 1121, 155))
+        self.console_log.setMinimumSize(QSize(0, 155))
+        font2 = QFont()
+        font2.setFamilies([u"Consolas"])
+        font2.setPointSize(10)
+        font2.setItalic(False)
+        self.console_log.setFont(font2)
+        self.console_log.setStyleSheet(u"border: 1px solid #A0A0A0; /* A thin, solid gray border */\n"
+"border-radius: 4px;        /* Optional: Rounds the corners slightly */\n"
+"padding: 4px;              /* Optional: Adds space between text and border */\n"
+"\n"
+"   /* 1. The Font Chain: Try Consolas first, fail over to Courier New */\n"
+"   font-family: \"Consolas\", \"Courier New\", monospace;\n"
+"    \n"
+"   /* 2. Size: Logs are usually slightly smaller than normal text */\n"
+"   font-size: 10pt; \n"
+"    ")
+        self.console_log.setReadOnly(True)
+        self.label = QLabel(self.page_auto_tagger)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(10, 490, 77, 16))
         font3 = QFont()
-        font3.setPointSize(50)
-        self.lbl_input_tag_2.setFont(font3)
+        font3.setFamilies([u"Monospac821 BT"])
+        font3.setBold(True)
+        self.label.setFont(font3)
+        self.label.setStyleSheet(u"border: none;\n"
+"background: transparent;")
         self.stackedWidget.addWidget(self.page_auto_tagger)
 
-        self.gridLayout_4.addWidget(self.stackedWidget, 0, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.stackedWidget, 0, 1, 1, 1)
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.gridLayout_4.addWidget(self.scrollArea, 0, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1180, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1381, 33))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuRaw_Data = QMenu(self.menubar)
@@ -425,13 +456,10 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(tooltip)
         self.ActionDownload.setToolTip(QCoreApplication.translate("MainWindow", u"Download Excel", None))
 #endif // QT_CONFIG(tooltip)
-        self.label.setText(QCoreApplication.translate("MainWindow", u"CONSOLE LOG", None))
         self.groupBox.setTitle("")
         self.beam_design.setText("")
         self.column_design.setText("")
         self.btn_auto_tagger.setText("")
-        self.console_log.setPlainText("")
-        self.console_log.setPlaceholderText("")
         self.btn_frame_property.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.btn_flexure.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.btn_frame_assignment.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
@@ -444,6 +472,9 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle("")
         self.lbl_input_tag.setText(QCoreApplication.translate("MainWindow", u"MEMBER TAG:", None))
         self.lbl_input_tag_2.setText(QCoreApplication.translate("MainWindow", u"-", None))
+        self.console_log.setPlainText("")
+        self.console_log.setPlaceholderText("")
+        self.label.setText(QCoreApplication.translate("MainWindow", u"CONSOLE LOG", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuRaw_Data.setTitle(QCoreApplication.translate("MainWindow", u"Import Data", None))
         self.menuDesigner.setTitle(QCoreApplication.translate("MainWindow", u"Designer ", None))
