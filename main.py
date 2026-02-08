@@ -1,14 +1,24 @@
 import sys
+import os
 import string
 import pandas as pd
 
 from PySide6.QtCore import Qt, QTimer, QObject, Signal
-from PySide6.QtGui import QPalette, QColor
+from PySide6.QtGui import QPalette, QColor, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
 
 # This is the only "custom" import you need
 from mainwindow_ui import Ui_MainWindow
 from modules.etabs_api import ETABSConnector
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 
 class ETABSApp(QMainWindow):
@@ -23,10 +33,12 @@ class ETABSApp(QMainWindow):
         # Ensure it starts with the default gray style (not red)
         self.ui.btn_toggle_auto_tagger.setStyleSheet("")
 
-        # Redirect stdout to the GUI
+        # Redirect stdout to the GUIsa
         self.sys_stdout = EmittingStream()
         self.sys_stdout.textWritten.connect(self.append_log)
         sys.stdout = self.sys_stdout
+
+        self.setWindowIcon(QIcon(resource_path("Etabs_Logo.ico")))
 
         # Call setupUi to draw the designer layout on this window
         try:
@@ -113,6 +125,8 @@ class ETABSApp(QMainWindow):
         self.ui.menu_Open.triggered.connect(lambda: self.open_model())
 
         self.update_ui_state(False)
+
+        # Function to handle file paths when bundled in an EXE
 
     def toggle_auto_tagger(self):
         """
@@ -257,7 +271,7 @@ class ETABSApp(QMainWindow):
         file_path, _ = QFileDialog.getOpenFileName(
             self,
             "Open ETABS Model",
-            r"C:\Users\Acer\Desktop\Etabs_Sample_API_Test",
+            "",
             "ETABS Models (*.edb *.edb3)   ",
         )
 
