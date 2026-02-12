@@ -136,6 +136,26 @@ class ETABSConnector:
         except:
             pass
 
+    def change_unique_name(self, extracted_unique_name, cmb_tag_name, cmb_tag_number, cmb_tag_letter):
+        try:
+            current_unique_name = extracted_unique_name
+
+            if cmb_tag_letter == "-":
+                new_unique_name = f"{cmb_tag_name}-{cmb_tag_number}"
+            else:
+                new_unique_name = f"{cmb_tag_name}-{cmb_tag_number}{cmb_tag_letter}"
+            
+
+            ret = self.sap_model.FrameObj.ChangName(
+                current_unique_name, new_unique_name
+            )
+
+            if ret == 0:
+                return ret
+
+        except Exception as e:
+            print(f"Failed to rename {current_unique_name}. Error code: {ret}")
+
     def clear_selection(self):
         if self.sap_model is None:
             return

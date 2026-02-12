@@ -158,7 +158,7 @@ class ETABSApp(QMainWindow):
                     self.check_etabs_selection
                 )  # Your scan function
 
-            self.selection_timer.start(1000)  # Run every 1 second
+            self.selection_timer.start(100)  # Run every 1 second
             self.update_ui_state(True)
             # 2. Update Button Appearance (Change to "Stop")
             self.ui.btn_toggle_auto_tagger.setText("■ STOP AUTO TAGGER")
@@ -185,29 +185,20 @@ class ETABSApp(QMainWindow):
                 return
             else:
                 print(f"New Selection Detected: {self.last_selection}")
-                self.change_unique_name(self.last_selection)
+                self.update_tagging(self.last_selection)
                 self.etabs.clear_selection()
                 self.etabs.refresh_view()
 
         except:
             pass
 
-    def change_unique_name(self, extracted_unique_name):
+    def update_tagging(self, extracted_unique_name):
         try:
-            current_unique_name = extracted_unique_name
-
-            if self.ui.cmb_tag_letter.currentText() == "-":
-                new_unique_name = f"{self.ui.txt_tag_name.text()}-{self.ui.cmb_tag_number.currentText()}"
-            else:
-                new_unique_name = f"{self.ui.txt_tag_name.text()}-{self.ui.cmb_tag_number.currentText()}{self.ui.cmb_tag_letter.currentText()}"
-
-            ret = self.etabs.sap_model.FrameObj.ChangeName(
-                current_unique_name, new_unique_name
-            )
+            ret = self.etabs.change_unique_name(extracted_unique_name, self.ui.txt_tag_name.text(),self.ui.cmb_tag_number.currentText(),self.ui.cmb_tag_letter.currentText() )
 
             if ret == 0:
                 print(
-                    f"Renamed {current_unique_name} to {new_unique_name} successfully."
+                    f"Renamed {extracted_unique_name} to {ret[2]} successfully."
                 )
 
                 self.ui.cmb_tag_number.blockSignals(True)
