@@ -79,6 +79,14 @@ class ETABSConnector:
             print(f"Error running analysis: {e}")
             return False
 
+    def get_load_combinations(self):
+        try:
+            df_load_combos = self.get_data("Load Combination Definitions")
+            print(df_load_combos["Name"])
+        except Exception as e:
+            print(f"Error retrieving load combinations: {e}")
+            return []
+
     def run_concrete_design(self):
         try:
             # Set design code (example: ACI 318-14)
@@ -100,27 +108,27 @@ class ETABSConnector:
     def get_data(self, table_name):
         try:
             # Get all raw data
-            concrete_data = self.sap_model.DatabaseTables.GetTableForDisplayArray(
+            data = self.sap_model.DatabaseTables.GetTableForDisplayArray(
                 table_name, [], "", 0
             )
 
             # Check if retrieval was successful
-            if concrete_data[5] == 0:
+            if data[5] == 0:
                 print("Data Retrieved Successfully")
 
                 # Store data in a pandas dataframe
-                headers = concrete_data[2]
-                table_data = concrete_data[4]
+                headers = data[2]
+                table_data = data[4]
                 num_columns = len(headers)
                 row_list = []
                 for i in range(0, len(table_data), num_columns):
                     row = table_data[i : i + num_columns]
                     row_list.append(row)
-                concrete_dataframe = pd.DataFrame(row_list, columns=headers)
-                return concrete_dataframe
+                dataframe = pd.DataFrame(row_list, columns=headers)
+                return dataframe
 
             else:
-                print(f"Failed to retrieve datath code: {concrete_data[6]}")
+                print(f"Failed to retrieve datath code: {data[6]}")
 
         except Exception as e:
             return {"error": str(e)}

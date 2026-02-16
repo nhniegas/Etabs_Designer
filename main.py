@@ -290,6 +290,8 @@ class ETABSApp(QMainWindow):
             print(f"Opening file: {file_path}")
             self.etabs.connect()
             self.etabs.open_model(file_path)
+            self.etabs.get_load_combinations()
+
         except Exception as e:
             print(f"Error opening model: {e}")
         finally:

@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1381, 742)
+        MainWindow.resize(1361, 768)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -90,14 +90,13 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1377, 671))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1357, 697))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.scrollAreaWidgetContents.setMinimumSize(QSize(0, 0))
-        self.gridLayout_5 = QGridLayout(self.scrollAreaWidgetContents)
-        self.gridLayout_5.setObjectName(u"gridLayout_5")
         self.groupBox = QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setGeometry(QRect(9, 9, 200, 671))
         self.groupBox.setMinimumSize(QSize(200, 542))
         self.groupBox.setStyleSheet(u"border: none;\n"
 "\n"
@@ -166,11 +165,9 @@ class Ui_MainWindow(object):
         icon7.addFile(u"icons/AUTO TAGGER.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btn_auto_tagger.setIcon(icon7)
         self.btn_auto_tagger.setIconSize(QSize(100, 100))
-
-        self.gridLayout_5.addWidget(self.groupBox, 0, 0, 1, 1)
-
         self.stackedWidget = QStackedWidget(self.scrollAreaWidgetContents)
         self.stackedWidget.setObjectName(u"stackedWidget")
+        self.stackedWidget.setGeometry(QRect(230, 10, 1101, 471))
         self.stackedWidget.setMinimumSize(QSize(1000, 450))
         self.page_beam_desig = QWidget()
         self.page_beam_desig.setObjectName(u"page_beam_desig")
@@ -349,9 +346,10 @@ class Ui_MainWindow(object):
         font1 = QFont()
         font1.setPointSize(50)
         self.lbl_input_tag_2.setFont(font1)
-        self.console_log = QPlainTextEdit(self.page_auto_tagger)
+        self.stackedWidget.addWidget(self.page_auto_tagger)
+        self.console_log = QPlainTextEdit(self.scrollAreaWidgetContents)
         self.console_log.setObjectName(u"console_log")
-        self.console_log.setGeometry(QRect(10, 510, 1121, 155))
+        self.console_log.setGeometry(QRect(240, 520, 1101, 155))
         self.console_log.setMinimumSize(QSize(0, 155))
         font2 = QFont()
         font2.setFamilies([u"Consolas"])
@@ -369,19 +367,15 @@ class Ui_MainWindow(object):
 "   font-size: 10pt; \n"
 "    ")
         self.console_log.setReadOnly(True)
-        self.label = QLabel(self.page_auto_tagger)
+        self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 490, 77, 16))
+        self.label.setGeometry(QRect(240, 500, 77, 16))
         font3 = QFont()
         font3.setFamilies([u"Monospac821 BT"])
         font3.setBold(True)
         self.label.setFont(font3)
         self.label.setStyleSheet(u"border: none;\n"
 "background: transparent;")
-        self.stackedWidget.addWidget(self.page_auto_tagger)
-
-        self.gridLayout_5.addWidget(self.stackedWidget, 0, 1, 1, 1)
-
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.gridLayout_4.addWidget(self.scrollArea, 0, 0, 1, 1)
@@ -389,7 +383,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1381, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1361, 33))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuRaw_Data = QMenu(self.menubar)
@@ -428,7 +422,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.tab_widget.setCurrentIndex(0)
 
 
