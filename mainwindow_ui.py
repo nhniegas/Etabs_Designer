@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'mainwindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.1
+## Created by: Qt User Interface Compiler version 6.10.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -329,6 +329,11 @@ class Ui_MainWindow(object):
         self.cmb_tag_number.setObjectName(u"cmb_tag_number")
         self.cmb_tag_number.setEnabled(True)
         self.cmb_tag_number.setGeometry(QRect(470, 50, 72, 41))
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.cmb_tag_number.sizePolicy().hasHeightForWidth())
+        self.cmb_tag_number.setSizePolicy(sizePolicy2)
         self.cmb_tag_number.setFont(font)
         self.cmb_tag_number.setStyleSheet(u"")
         self.cmb_tag_number.setEditable(True)
@@ -423,7 +428,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.tab_widget.setCurrentIndex(0)
 
 
