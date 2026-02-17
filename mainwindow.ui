@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1361</width>
-    <height>768</height>
+    <height>774</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -72,7 +72,7 @@
          <x>0</x>
          <y>0</y>
          <width>1357</width>
-         <height>697</height>
+         <height>703</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -87,581 +87,848 @@
          <height>0</height>
         </size>
        </property>
-       <widget class="QGroupBox" name="groupBox">
-        <property name="geometry">
-         <rect>
-          <x>9</x>
-          <y>9</y>
-          <width>200</width>
-          <height>671</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>542</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border: none;
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0" rowspan="3">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>542</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;
 
 background-color: #f6f9ff;  /* Super Light Blue */
 border-radius: 6px;</string>
-        </property>
-        <property name="title">
-         <string/>
-        </property>
-        <widget class="QPushButton" name="beam_design">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>10</y>
-           <width>151</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>250</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/BEAM.png</normaloff>icons/BEAM.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>65</width>
-           <height>65</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="column_design">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>130</y>
-           <width>151</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>250</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/COLUMN.png</normaloff>icons/COLUMN.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_auto_tagger">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>250</y>
-           <width>151</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>250</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}
-
-
-</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/AUTO TAGGER.png</normaloff>icons/AUTO TAGGER.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QStackedWidget" name="stackedWidget">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>10</y>
-          <width>1101</width>
-          <height>471</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>1000</width>
-          <height>450</height>
-         </size>
-        </property>
-        <property name="currentIndex">
-         <number>1</number>
-        </property>
-        <widget class="QWidget" name="page_beam_desig">
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QTabWidget" name="tab_widget">
-            <property name="currentIndex">
-             <number>0</number>
-            </property>
-            <widget class="QWidget" name="tab">
-             <attribute name="title">
-              <string>Raw Data</string>
-             </attribute>
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="1">
-               <widget class="QPushButton" name="btn_frame_property">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>PushButton</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="6">
-               <widget class="QTableWidget" name="raw_data"/>
-              </item>
-              <item row="0" column="3">
-               <widget class="QPushButton" name="btn_flexure">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>PushButton</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QPushButton" name="btn_frame_assignment">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>PushButton</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="5">
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>38</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="0" column="0">
-               <widget class="QPushButton" name="btn_material_data">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>PushButton</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="4">
-               <widget class="QPushButton" name="btn_shear">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton {
-    border: none;             /* No button border */
-    background: transparent;  /* No grey background */
-    text-align: center;         /* Align text like a label */
-    padding: 5px;
-}
-QPushButton:hover {
-    color: black;
-    background-color: #e0e0e0; /* Highlight on hover */
-    font-weight: bold;
-}</string>
-                </property>
-                <property name="text">
-                 <string>PushButton</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="tab_2">
-             <attribute name="title">
-              <string>Designer</string>
-             </attribute>
-             <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="0">
-               <widget class="QTableWidget" name="designer_data"/>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="tab_3">
-             <attribute name="title">
-              <string>Export </string>
-             </attribute>
-             <widget class="QTableWidget" name="export_data">
-              <property name="geometry">
-               <rect>
-                <x>20</x>
-                <y>20</y>
-                <width>551</width>
-                <height>481</height>
-               </rect>
-              </property>
-             </widget>
-            </widget>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="page_auto_tagger">
-         <widget class="QPushButton" name="btn_toggle_auto_tagger">
-          <property name="geometry">
-           <rect>
-            <x>400</x>
-            <y>110</y>
-            <width>341</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>ACTIVATE AUTO TAGGER</string>
-          </property>
-         </widget>
-         <widget class="QGroupBox" name="groupBox_2">
-          <property name="geometry">
-           <rect>
-            <x>240</x>
-            <y>180</y>
-            <width>661</width>
-            <height>151</height>
-           </rect>
           </property>
           <property name="title">
            <string/>
           </property>
-          <widget class="QLabel" name="lbl_input_tag">
+          <widget class="QPushButton" name="beam_design">
            <property name="geometry">
             <rect>
-             <x>50</x>
-             <y>40</y>
-             <width>171</width>
-             <height>61</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>MEMBER TAG:</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="txt_tag_name">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>250</x>
-             <y>50</y>
+             <x>20</x>
+             <y>10</y>
              <width>151</width>
-             <height>41</height>
+             <height>121</height>
             </rect>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-            </font>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>16777215</height>
+            </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    placeholder-text-color: #888888; /* Forces the hint text to be Dark Grey */
-}</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="cmb_tag_number">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>470</x>
-             <y>50</y>
-             <width>72</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="cmb_tag_letter">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>550</x>
-             <y>50</y>
-             <width>71</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-            </font>
-           </property>
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lbl_input_tag_2">
-           <property name="geometry">
-            <rect>
-             <x>420</x>
-             <y>40</y>
-             <width>41</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>50</pointsize>
-            </font>
+            <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    /* Hover State: Very light gray/almost white */
+    background-color: #f5f5f5; 
+    border: 1px solid #cccccc;
+    /* Change text to dark gray so it's visible on the light background */
+    color: #333333; 
+}
+
+QPushButton:pressed {
+    /* Pressed State: Standard mid-gray */
+    background-color: #d0d0d0; 
+    color: #000000;
+}
+
+</string>
            </property>
            <property name="text">
-            <string>-</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/BEAM.png</normaloff>icons/BEAM.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>65</width>
+             <height>65</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="column_design">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>130</y>
+             <width>151</width>
+             <height>121</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    /* Hover State: Very light gray/almost white */
+    background-color: #f5f5f5; 
+    border: 1px solid #cccccc;
+    /* Change text to dark gray so it's visible on the light background */
+    color: #333333; 
+}
+
+QPushButton:pressed {
+    /* Pressed State: Standard mid-gray */
+    background-color: #d0d0d0; 
+    color: #000000;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/COLUMN.png</normaloff>icons/COLUMN.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="btn_auto_tagger">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>250</y>
+             <width>151</width>
+             <height>121</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    border: none;             /* No button border */
+    background: transparent;  /* No grey background */
+    text-align: center;         /* Align text like a label */
+    padding: 5px;
+}
+QPushButton:hover {
+    /* Hover State: Very light gray/almost white */
+    background-color: #f5f5f5; 
+    border: 1px solid #cccccc;
+    /* Change text to dark gray so it's visible on the light background */
+    color: #333333; 
+}
+
+QPushButton:pressed {
+    /* Pressed State: Standard mid-gray */
+    background-color: #d0d0d0; 
+    color: #000000;
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/AUTO TAGGER.png</normaloff>icons/AUTO TAGGER.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
            </property>
           </widget>
          </widget>
-        </widget>
-       </widget>
-       <widget class="QPlainTextEdit" name="console_log">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>520</y>
-          <width>1101</width>
-          <height>155</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>155</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>10</pointsize>
-          <italic>false</italic>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border: 1px solid #A0A0A0; /* A thin, solid gray border */
+        </item>
+        <item row="0" column="1">
+         <widget class="QStackedWidget" name="stackedWidget">
+          <property name="minimumSize">
+           <size>
+            <width>1000</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page_beam_desig">
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QTabWidget" name="tab_widget">
+              <property name="currentIndex">
+               <number>1</number>
+              </property>
+              <widget class="QWidget" name="tab">
+               <attribute name="title">
+                <string>Property Data</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout">
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="btn_section_data">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Section Data</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QPushButton" name="btn_material_data">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Material Data</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QPushButton" name="btn_frame_assignment">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Frame Assignement</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>38</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="1" column="0" colspan="4">
+                 <widget class="QTableView" name="raw_data"/>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_4">
+               <attribute name="title">
+                <string>Design Forces</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_6">
+                <item row="0" column="0">
+                 <widget class="QGroupBox" name="groupBox_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>500</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="title">
+                   <string/>
+                  </property>
+                  <widget class="QListWidget" name="combo_list">
+                   <property name="geometry">
+                    <rect>
+                     <x>10</x>
+                     <y>10</y>
+                     <width>191</width>
+                     <height>331</height>
+                    </rect>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::SelectionMode::MultiSelection</enum>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="add_uls">
+                   <property name="geometry">
+                    <rect>
+                     <x>210</x>
+                     <y>70</y>
+                     <width>81</width>
+                     <height>26</height>
+                    </rect>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>&gt;&gt;&gt;</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="add_sls">
+                   <property name="geometry">
+                    <rect>
+                     <x>210</x>
+                     <y>260</y>
+                     <width>81</width>
+                     <height>26</height>
+                    </rect>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>&gt;&gt;&gt;</string>
+                   </property>
+                  </widget>
+                  <widget class="QListWidget" name="sls_combo_list">
+                   <property name="geometry">
+                    <rect>
+                     <x>300</x>
+                     <y>180</y>
+                     <width>191</width>
+                     <height>161</height>
+                    </rect>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::SelectionMode::MultiSelection</enum>
+                   </property>
+                  </widget>
+                  <widget class="QListWidget" name="uls_combo_list">
+                   <property name="geometry">
+                    <rect>
+                     <x>300</x>
+                     <y>10</y>
+                     <width>191</width>
+                     <height>161</height>
+                    </rect>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::SelectionMode::MultiSelection</enum>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="remove_uls">
+                   <property name="geometry">
+                    <rect>
+                     <x>210</x>
+                     <y>100</y>
+                     <width>81</width>
+                     <height>26</height>
+                    </rect>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>&lt;&lt;&lt;</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="remove_sls">
+                   <property name="geometry">
+                    <rect>
+                     <x>210</x>
+                     <y>290</y>
+                     <width>81</width>
+                     <height>26</height>
+                    </rect>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>&lt;&lt;&lt;</string>
+                   </property>
+                  </widget>
+                  <widget class="QPushButton" name="extract_etabs_forces">
+                   <property name="geometry">
+                    <rect>
+                     <x>12</x>
+                     <y>350</y>
+                     <width>481</width>
+                     <height>26</height>
+                    </rect>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>500</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+    /* Lighter grey background to match the window theme */
+    background-color: #f0f0f0; 
+    /* Subtle border to match the QListWidget headers */
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
+    /* Darker text for readability on light background */
+    color: #333333; 
+    padding: 6px;
+    font-size: 11px;
+}
+
+QPushButton:hover {
+    /* Lighter, softer red for the light theme */
+    background-color: #ef9a9a; 
+    border: 1px solid #e57373;
+    color: #333333; /* Switching to dark text for better contrast on light red */
+}
+
+QPushButton:pressed {
+    /* Slightly deeper red when clicked */
+    background-color: #ee5253; 
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Extract Etabs Design Forces</string>
+                   </property>
+                  </widget>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QTableView" name="design_force"/>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_2">
+               <attribute name="title">
+                <string>Reinforcement Design</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="0" column="0">
+                 <widget class="QTableWidget" name="designer_data"/>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_5">
+               <attribute name="title">
+                <string>Deflection Check</string>
+               </attribute>
+              </widget>
+              <widget class="QWidget" name="tab_3">
+               <attribute name="title">
+                <string>Export </string>
+               </attribute>
+               <widget class="QTableWidget" name="export_data">
+                <property name="geometry">
+                 <rect>
+                  <x>20</x>
+                  <y>20</y>
+                  <width>551</width>
+                  <height>481</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_auto_tagger">
+           <widget class="QPushButton" name="btn_toggle_auto_tagger">
+            <property name="geometry">
+             <rect>
+              <x>400</x>
+              <y>110</y>
+              <width>341</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ACTIVATE AUTO TAGGER</string>
+            </property>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="geometry">
+             <rect>
+              <x>240</x>
+              <y>180</y>
+              <width>661</width>
+              <height>151</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QLabel" name="lbl_input_tag">
+             <property name="geometry">
+              <rect>
+               <x>50</x>
+               <y>40</y>
+               <width>171</width>
+               <height>61</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>MEMBER TAG:</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="txt_tag_name">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>250</x>
+               <y>50</y>
+               <width>151</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
+    placeholder-text-color: #888888; /* Forces the hint text to be Dark Grey */
+}</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+            <widget class="QComboBox" name="cmb_tag_number">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>470</x>
+               <y>50</y>
+               <width>72</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QComboBox" name="cmb_tag_letter">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>550</x>
+               <y>50</y>
+               <width>71</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QLabel" name="lbl_input_tag_2">
+             <property name="geometry">
+              <rect>
+               <x>420</x>
+               <y>40</y>
+               <width>41</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>50</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <family>Monospac821 BT</family>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none;
+background: transparent;</string>
+          </property>
+          <property name="text">
+           <string>CONSOLE LOG</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPlainTextEdit" name="console_log">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>155</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>10</pointsize>
+            <italic>false</italic>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid #A0A0A0; /* A thin, solid gray border */
 border-radius: 4px;        /* Optional: Rounds the corners slightly */
 padding: 4px;              /* Optional: Adds space between text and border */
 
@@ -671,40 +938,19 @@ padding: 4px;              /* Optional: Adds space between text and border */
    /* 2. Size: Logs are usually slightly smaller than normal text */
    font-size: 10pt; 
     </string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="plainText">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>500</y>
-          <width>77</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Monospac821 BT</family>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border: none;
-background: transparent;</string>
-        </property>
-        <property name="text">
-         <string>CONSOLE LOG</string>
-        </property>
-       </widget>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="plainText">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

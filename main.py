@@ -1,15 +1,25 @@
+from email import header
 import sys
 import os
 import string
 import pandas as pd
 
-from PySide6.QtCore import Qt, QTimer, QObject, Signal
+from PySide6.QtCore import Qt, QTimer, QObject, Signal, QAbstractTableModel, QModelIndex
 from PySide6.QtGui import QPalette, QColor, QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QTableWidgetItem,
+    QListWidgetItem,
+    QMessageBox,
+    QHeaderView,
+    QAbstractItemView,
+)
 
 # This is the only "custom" import you need
 from mainwindow_ui import Ui_MainWindow
 from modules.etabs_api import ETABSConnector
+from typing import Union
 
 
 def resource_path(relative_path):
@@ -21,12 +31,57 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
+class ETABSDataModel(QAbstractTableModel):
+    def __init__(self, data):
+        super().__init__()
+        # Ensure it's a DataFrame to avoid shape errors
+        self._data = data if hasattr(data, "shape") else pd.DataFrame(data)
+
+    # Use Union[QModelIndex, None] to satisfy Pylance's strict check
+    def rowCount(self, parent: Union[QModelIndex, None] = QModelIndex()):
+        return self._data.shape[0]
+
+    def columnCount(self, parent: Union[QModelIndex, None] = QModelIndex()):
+        return self._data.shape[1]
+
+    def data(self, index: QModelIndex, role=Qt.DisplayRole):
+        if not index.isValid() or role != Qt.DisplayRole:
+            return None
+        # Fast iloc access for your Story/Label/UniqueName columns
+        return str(self._data.iloc[index.row(), index.column()])
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole and orientation == Qt.Horizontal:
+            return str(self._data.columns[section])
+        return None
+
+
 class ETABSApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.setup_list_with_header(self.ui.combo_list, "Etabs Load Combinations")
+        self.setup_list_with_header(self.ui.uls_combo_list, "ULS Load Combinations")
+        self.setup_list_with_header(self.ui.sls_combo_list, "SLS Load Combinations")
+        self.ui.extract_etabs_forces.clicked.connect(self.run_extraction_and_design)
+
+        # Connect the ULS Add/Remove buttons
+        self.ui.add_uls.clicked.connect(
+            lambda: self.move_load_combo(self.ui.combo_list, self.ui.uls_combo_list)
+        )
+        self.ui.remove_uls.clicked.connect(
+            lambda: self.move_load_combo(self.ui.uls_combo_list, self.ui.combo_list)
+        )
+
+        # Connect the SLS Add/Remove buttons
+        self.ui.add_sls.clicked.connect(
+            lambda: self.move_load_combo(self.ui.combo_list, self.ui.sls_combo_list)
+        )
+        self.ui.remove_sls.clicked.connect(
+            lambda: self.move_load_combo(self.ui.sls_combo_list, self.ui.combo_list)
+        )
         # FORCE the initial state (Text + Icon)
         self.ui.btn_toggle_auto_tagger.setText("▶ ACTIVATE AUTO TAGGER")
 
@@ -62,20 +117,25 @@ class ETABSApp(QMainWindow):
             print(f"Error loading sample data: {e}")
 
         # Connect buttons to functions
-        self.ui.btn_material_data.clicked.connect(
-            lambda: self.display_table(self.sample_material_data)
+        self.ui.btn_section_data.clicked.connect(
+            lambda: self.display_table_data(
+                self.etabs.get_data(
+                    "Frame Section Property Definitions - Concrete Rectangular"
+                ),
+                self.ui.raw_data,
+            )
         )
-        self.ui.btn_frame_property.clicked.connect(
-            lambda: self.display_table(self.sample_frame_section_properties)
+        self.ui.btn_material_data.clicked.connect(
+            lambda: self.display_table_data(
+                self.etabs.get_data("Material Properties - Concrete Data"),
+                self.ui.raw_data,
+            )
         )
         self.ui.btn_frame_assignment.clicked.connect(
-            lambda: self.display_table(self.sample_frame_assignment)
-        )
-        self.ui.btn_flexure.clicked.connect(
-            lambda: self.display_table(self.sample_beam_flexure_envelope)
-        )
-        self.ui.btn_shear.clicked.connect(
-            lambda: self.display_table(self.sample_beam_shear_envelope)
+            lambda: self.display_table_data(
+                self.etabs.get_data("Frame Assignments - Section Properties"),
+                self.ui.raw_data,
+            )
         )
 
         # Navigte To Auto-Tagger Widget
@@ -127,6 +187,121 @@ class ETABSApp(QMainWindow):
         self.update_ui_state(False)
 
         # Function to handle file paths when bundled in an EXE
+
+    def display_table_data(self, dataframe, table_widget):
+        try:
+            # Create the model ONLY ONCE here
+            self.force_model = ETABSDataModel(dataframe)
+            table_widget.setModel(self.force_model)
+
+            # 2. OPTIMIZATION: Avoid 'ResizeToContents' for large data
+            header = table_widget.horizontalHeader()
+
+            # Use Interactive so the user can drag, but the UI doesn't lag on load
+            header.setSectionResizeMode(QHeaderView.Interactive)
+
+        except Exception as e:
+            print(f"Error displaying table data: {e}")
+
+    def run_extraction_and_design(self):
+        uls_count = self.ui.uls_combo_list.count() - 1
+        sls_count = self.ui.sls_combo_list.count() - 1
+
+        if uls_count <= 0 or sls_count <= 0:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText("Missing Load Combinations")
+            msg.setInformativeText(
+                "Please add at least one ULS and one SLS load combination before proceeding."
+            )
+            msg.setWindowTitle("Input Required")
+            msg.exec()
+            return  # Stop execution
+
+        from PySide6.QtWidgets import QProgressDialog, QApplication
+
+        loading = QProgressDialog(
+            "Performing Concrete Design in ETABS...", "", 0, 0, self
+        )
+        loading.setWindowTitle("Please Wait")
+        loading.setWindowModality(Qt.WindowModality.WindowModal)
+        loading.setMinimumDuration(0)
+        loading.setCancelButton(None)
+        loading.show()
+        QApplication.processEvents()
+
+        try:
+            self.etabs.clear_load_combinations(self.etabs.get_load_combinations())  #
+
+            load_combos = []
+            for i in range(1, self.ui.uls_combo_list.count()):
+                combo_name = self.ui.uls_combo_list.item(i).text()
+                load_combos.append(combo_name)
+
+            # 4. Clear and Set SLS Combinations
+            # Note: SetComboService is the API equivalent for SLS
+
+            for i in range(1, self.ui.sls_combo_list.count()):
+                combo_name = self.ui.sls_combo_list.item(i).text()
+                load_combos.append(combo_name)
+
+            # 5. Run Concrete Design
+            self.etabs.set_load_combinations(load_combos)
+            ret = self.etabs.run_concrete_design()
+
+            if ret == True:
+                print("Concrete design completed successfully with selected combos.")
+                self.display_table_data(
+                    self.etabs.get_data("Design Forces - Beams"), self.ui.design_force
+                )
+            else:
+                print(f"Design failed with error code: {ret}")
+
+        except Exception as e:
+            print(f"An error occurred during design execution: {e}")
+        finally:
+            loading.close()
+
+    def move_load_combo(self, source, target):
+        # 1. Get a list of all selected item objects
+        selected_items = source.selectedItems()
+
+        # 2. Loop through each selected item
+        for item in selected_items:
+            # Get the row index of the current item
+            row = source.row(item)
+
+            # 3. Safety Check: Index 0 is the Header
+            # We skip the header so it remains in the source list
+            if row > 0:
+                # Take the item out of the source
+                taken_item = source.takeItem(row)
+                # Add the text to the target list
+                target.addItem(taken_item.text())
+
+    def setup_list_with_header(self, list_widget, header_text, data_list=None):
+        # 1. Clear existing items
+        list_widget.clear()
+
+        # 2. Create the Header Item
+        header_item = QListWidgetItem(header_text)
+
+        # 4. Make the Header Non-Selectable and Non-Editable
+        # This prevents the header from being "moved" by your ADD buttons
+        header_item.setFlags(Qt.NoItemFlags)
+        header_item.setBackground(QColor(230, 230, 230))
+        list_widget.addItem(header_item)
+
+        # Only add data if it's provided (not at startup)
+        if data_list:
+            for item in data_list:
+                list_widget.addItem(item)
+
+    def populate_ui_combos(self):
+        # Populate the Left, Top-Right, and Bottom-Right lists
+        self.setup_list_with_header(self.ui.combo_list, "Etabs Load Combinations")
+        self.setup_list_with_header(self.ui.uls_combo_list, "ULS Load Combinations")
+        self.setup_list_with_header(self.ui.sls_combo_list, "SLS Load Combinations")
 
     def toggle_auto_tagger(self):
         """
@@ -194,13 +369,14 @@ class ETABSApp(QMainWindow):
 
     def update_tagging(self, extracted_unique_name):
         try:
-            ret = self.etabs.change_unique_name(extracted_unique_name, self.ui.txt_tag_name.text(),self.ui.cmb_tag_number.currentText(),self.ui.cmb_tag_letter.currentText() )
+            ret = self.etabs.change_unique_name(
+                extracted_unique_name,
+                self.ui.txt_tag_name.text(),
+                self.ui.cmb_tag_number.currentText(),
+                self.ui.cmb_tag_letter.currentText(),
+            )
 
             if ret == 0:
-                print(
-                    f"Renamed {extracted_unique_name} to {ret[2]} successfully."
-                )
-
                 self.ui.cmb_tag_number.blockSignals(True)
                 self.ui.cmb_tag_letter.blockSignals(True)
                 current_Index = self.ui.cmb_tag_letter.currentIndex()
@@ -211,7 +387,7 @@ class ETABSApp(QMainWindow):
                     self.ui.cmb_tag_letter.setCurrentIndex(current_Index + 1)
 
             else:
-                print(f"Failed to rename {current_unique_name}. Error code: {ret}")
+                print(f"Failed to rename {extracted_unique_name}. Error code: {ret}")
 
         except Exception as e:
             print(f"Exception occurred while renaming: {e}")
@@ -282,6 +458,13 @@ class ETABSApp(QMainWindow):
             self.etabs.connect()
             self.etabs.open_model(file_path)
             self.etabs.get_load_combinations()
+            self.etabs.run_analysis()
+
+            self.setup_list_with_header(
+                self.ui.combo_list,
+                "Etabs Load Combinations",
+                self.etabs.get_load_combinations(),
+            )
 
         except Exception as e:
             print(f"Error opening model: {e}")
@@ -307,21 +490,6 @@ class ETABSApp(QMainWindow):
             super().closeEvent(event)
         except Exception as e:
             print(f"Error closing ETABS model: {e}")
-
-    def display_table(self, df):
-        self.ui.raw_data.setRowCount(0)
-
-        table = df
-        self.ui.raw_data.setRowCount(table.shape[0])
-        self.ui.raw_data.setColumnCount(table.shape[1])
-
-        headers = [str(col) for col in table.columns.tolist()]
-        self.ui.raw_data.setHorizontalHeaderLabels(headers)
-
-        for i in range(table.shape[0]):
-            for j in range(table.shape[1]):
-                value = str(table.iat[i, j])
-                self.ui.raw_data.setItem(i, j, QTableWidgetItem(value))
 
     def animate_click(self, button):
         from PySide6.QtCore import QPropertyAnimation, QSize, QEasingCurve

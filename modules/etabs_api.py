@@ -53,6 +53,7 @@ class ETABSConnector:
 
         try:
             # Open the model
+            self.sap_model.SetPresentUnits(6)  # Set units to kN, m, C
             self.sap_model.File.OpenFile(self.model_path)
             print(f"Model opened successfully: {self.model_path}")
             return True
@@ -63,9 +64,6 @@ class ETABSConnector:
 
     def run_analysis(self):
         try:
-            # Save the model before analysis``
-            self.sap_model.File.Save(self.model_path)
-
             # Run the analysis
             run_info = self.sap_model.Analyze.RunAnalysis()
             if run_info == 0:
@@ -79,20 +77,63 @@ class ETABSConnector:
             print(f"Error running analysis: {e}")
             return False
 
+    def clear_load_combinations(self, load_combos):
+        try:
+            for combo in load_combos:
+                ret = self.sap_model.DesignConcrete.SetComboStrength(combo, False)
+
+                if ret != 0:
+                    print(
+                        f"Failed to clear load combination {combo} for design. Error code: {ret}"
+                    )
+                else:
+                    print(f"Load combination {combo} cleared for design successfully.")
+
+        except Exception as e:
+            print(f"Error clearing load combinations for design: {e}")
+
     def get_load_combinations(self):
         try:
             df_load_combos = self.get_data("Load Combination Definitions")
             print(df_load_combos["Name"])
+
+            load_combo = []
+            prev_combo = ""
+            for combo in df_load_combos["Name"].tolist():
+                current_combo = combo
+                if current_combo != prev_combo:
+                    load_combo.append(current_combo)
+                prev_combo = current_combo
+
+            return load_combo
+
         except Exception as e:
             print(f"Error retrieving load combinations: {e}")
             return []
 
+    def set_load_combinations(self, load_combos):
+        try:
+            prev_combo = ""
+            for combo in load_combos:
+                current_combo = combo
+                if current_combo != prev_combo:
+                    ret = self.sap_model.DesignConcrete.SetComboStrength(combo, True)
+
+                    if ret != 0:
+                        print(
+                            f"Failed to set load combination {combo} for design. Error code: {ret}"
+                        )
+                    else:
+                        print(f"Load combination {combo} set for design successfully.")
+                prev_combo = current_combo
+
+        except Exception as e:
+            print(f"Error setting load combinations for design: {e}")
+
     def run_concrete_design(self):
         try:
-            # Set design code (example: ACI 318-14)
             self.sap_model.DesignConcrete.SetCode(self.concrete_design_code)
 
-            # Run concrete design
             run_info = self.sap_model.DesignConcrete.StartDesign()
             if run_info == 0:
                 print("Concrete design completed successfully")
@@ -144,7 +185,9 @@ class ETABSConnector:
         except:
             pass
 
-    def change_unique_name(self, extracted_unique_name, cmb_tag_name, cmb_tag_number, cmb_tag_letter):
+    def change_unique_name(
+        self, extracted_unique_name, cmb_tag_name, cmb_tag_number, cmb_tag_letter
+    ):
         try:
             current_unique_name = extracted_unique_name
 
@@ -152,17 +195,19 @@ class ETABSConnector:
                 new_unique_name = f"{cmb_tag_name}-{cmb_tag_number}"
             else:
                 new_unique_name = f"{cmb_tag_name}-{cmb_tag_number}{cmb_tag_letter}"
-            
 
             ret = self.sap_model.FrameObj.ChangName(
                 current_unique_name, new_unique_name
             )
 
             if ret == 0:
+                print(
+                    f"Renamed {extracted_unique_name} to {new_unique_name} successfully."
+                )
                 return ret
 
         except Exception as e:
-            print(f"Failed to rename {current_unique_name}. Error code: {ret}")
+            print(f"Failed to rename {extracted_unique_name}. Error code: {e}")
 
     def clear_selection(self):
         if self.sap_model is None:
