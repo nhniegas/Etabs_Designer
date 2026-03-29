@@ -92,25 +92,6 @@ class ETABSConnector:
         except Exception as e:
             print(f"Error clearing load combinations for design: {e}")
 
-    def get_load_combinations(self):
-        try:
-            df_load_combos = self.get_data("Load Combination Definitions")
-            print(df_load_combos["Name"])
-
-            load_combo = []
-            prev_combo = ""
-            for combo in df_load_combos["Name"].tolist():
-                current_combo = combo
-                if current_combo != prev_combo:
-                    load_combo.append(current_combo)
-                prev_combo = current_combo
-
-            return load_combo
-
-        except Exception as e:
-            print(f"Error retrieving load combinations: {e}")
-            return []
-
     def set_load_combinations(self, load_combos):
         try:
             prev_combo = ""

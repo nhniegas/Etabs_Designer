@@ -1,9 +1,9 @@
-from email import header
+# Standard imports for system operations
 import sys
 import os
 import string
-import pandas as pd
 
+# Import PySide6 for GUI
 from PySide6.QtCore import Qt, QTimer, QObject, Signal, QAbstractTableModel, QModelIndex
 from PySide6.QtGui import QPalette, QColor, QIcon
 from PySide6.QtWidgets import (
@@ -16,10 +16,13 @@ from PySide6.QtWidgets import (
     QAbstractItemView,
 )
 
-# This is the only "custom" import you need
+# Import modules for custom GUI and ETABS API
 from mainwindow_ui import Ui_MainWindow
 from modules.etabs_api import ETABSConnector
 from typing import Union
+
+# Import for data handlinfg - concrete design and analysis module
+import pandas as pd
 
 
 def resource_path(relative_path):
@@ -62,25 +65,72 @@ class ETABSApp(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.ui.max_rho.stateChanged.connect(
+            lambda state: self.ui.max_rho.setText("✔" if state == 2 else "")
+        )
+        self.ui.half_moment.stateChanged.connect(
+            lambda state: self.ui.half_moment.setText("✔" if state == 2 else "")
+        )
+        self.ui.fourth_moment.stateChanged.connect(
+            lambda state: self.ui.fourth_moment.setText("✔" if state == 2 else "")
+        )
+
+        self.ui.prob_shear.stateChanged.connect(
+            lambda state: self.ui.prob_shear.setText("✔" if state == 2 else "")
+        )
+
         self.setup_list_with_header(self.ui.combo_list, "Etabs Load Combinations")
         self.setup_list_with_header(self.ui.uls_combo_list, "ULS Load Combinations")
         self.setup_list_with_header(self.ui.sls_combo_list, "SLS Load Combinations")
-        self.ui.extract_etabs_forces.clicked.connect(self.run_extraction_and_design)
+        self.setup_list_with_header(self.ui.beam_list, "Beam List")
+        self.setup_list_with_header(
+            self.ui.selected_beam_list, "Beams Selected for Design"
+        )
+
+        self.ui.extract_etabs_forces.clicked.connect(
+            self.run_and_extraction_design_forces
+        )
 
         # Connect the ULS Add/Remove buttons
         self.ui.add_uls.clicked.connect(
-            lambda: self.move_load_combo(self.ui.combo_list, self.ui.uls_combo_list)
+            lambda: (
+                self.move_data(self.ui.combo_list, self.ui.uls_combo_list),
+                self.ui.cmb_gravity_load_combo.addItems(
+                    [
+                        self.ui.uls_combo_list.item(i).text()
+                        for i in range(1, self.ui.uls_combo_list.count())
+                    ]
+                ),
+            ),
         )
+
         self.ui.remove_uls.clicked.connect(
-            lambda: self.move_load_combo(self.ui.uls_combo_list, self.ui.combo_list)
+            lambda: (
+                self.move_data(self.ui.uls_combo_list, self.ui.combo_list),
+                self.ui.cmb_gravity_load_combo.clear(),
+                self.ui.cmb_gravity_load_combo.addItems(
+                    [
+                        self.ui.uls_combo_list.item(i).text()
+                        for i in range(1, self.ui.uls_combo_list.count())
+                    ]
+                ),
+            )
+        )
+
+        self.ui.add_beams.clicked.connect(
+            lambda: self.move_data(self.ui.beam_list, self.ui.selected_beam_list)
+        )
+
+        self.ui.remove_beams.clicked.connect(
+            lambda: self.move_data(self.ui.selected_beam_list, self.ui.beam_list)
         )
 
         # Connect the SLS Add/Remove buttons
         self.ui.add_sls.clicked.connect(
-            lambda: self.move_load_combo(self.ui.combo_list, self.ui.sls_combo_list)
+            lambda: self.move_data(self.ui.combo_list, self.ui.sls_combo_list)
         )
         self.ui.remove_sls.clicked.connect(
-            lambda: self.move_load_combo(self.ui.sls_combo_list, self.ui.combo_list)
+            lambda: self.move_data(self.ui.sls_combo_list, self.ui.combo_list)
         )
         # FORCE the initial state (Text + Icon)
         self.ui.btn_toggle_auto_tagger.setText("▶ ACTIVATE AUTO TAGGER")
@@ -99,20 +149,6 @@ class ETABSApp(QMainWindow):
         try:
             self.etabs = ETABSConnector()
 
-            self.sample_material_data = pd.read_csv("sample/sample_material_data.csv")
-            self.sample_frame_section_properties = pd.read_csv(
-                "sample/sample_frame_section_properties.csv"
-            )
-            self.sample_frame_assignment = pd.read_csv(
-                "sample/sample_frame_assignment.csv"
-            )
-            self.sample_beam_flexure_envelope = pd.read_csv(
-                "sample/sample_beam_flexure_envelope.csv"
-            )
-            self.sample_beam_shear_envelope = pd.read_csv(
-                "sample/sample_beam_shear_envelope.csv"
-            )
-
         except Exception as e:
             print(f"Error loading sample data: {e}")
 
@@ -125,9 +161,17 @@ class ETABSApp(QMainWindow):
                 self.ui.raw_data,
             )
         )
-        self.ui.btn_material_data.clicked.connect(
+        self.ui.btn_concrete_material.clicked.connect(
             lambda: self.display_table_data(
                 self.etabs.get_data("Material Properties - Concrete Data"),
+                self.ui.raw_data,
+            )
+        )
+        self.ui.btn_rebar_material.clicked.connect(
+            lambda: self.display_table_data(
+                self.etabs.get_data(
+                    "Frame Section Property Definitions - Concrete Beam Reinforcing"
+                ),
                 self.ui.raw_data,
             )
         )
@@ -144,6 +188,14 @@ class ETABSApp(QMainWindow):
         )
         self.ui.btn_auto_tagger.clicked.connect(
             lambda: self.animate_click(self.ui.btn_auto_tagger)
+        )
+
+        # Navigte To Beam Design Widget
+        self.ui.beam_design.clicked.connect(
+            lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_beam_design)
+        )
+        self.ui.beam_design.clicked.connect(
+            lambda: self.animate_click(self.ui.beam_design)
         )
 
         # Toggle Auto-Tagger Functionality
@@ -203,7 +255,7 @@ class ETABSApp(QMainWindow):
         except Exception as e:
             print(f"Error displaying table data: {e}")
 
-    def run_extraction_and_design(self):
+    def run_and_extraction_design_forces(self):
         uls_count = self.ui.uls_combo_list.count() - 1
         sls_count = self.ui.sls_combo_list.count() - 1
 
@@ -231,7 +283,9 @@ class ETABSApp(QMainWindow):
         QApplication.processEvents()
 
         try:
-            self.etabs.clear_load_combinations(self.etabs.get_load_combinations())  #
+            self.etabs.clear_load_combinations(
+                self.etabs.get_data("Load Combination Definitions")["Name"].tolist()
+            )
 
             load_combos = []
             for i in range(1, self.ui.uls_combo_list.count()):
@@ -251,9 +305,211 @@ class ETABSApp(QMainWindow):
 
             if ret == True:
                 print("Concrete design completed successfully with selected combos.")
-                self.display_table_data(
-                    self.etabs.get_data("Design Forces - Beams"), self.ui.design_force
+                df = self.etabs.get_data("Design Forces - Beams")
+                df["Combo"] = df["Combo"].str[:-2]
+
+                df["Station"] = pd.to_numeric(df["Station"], errors="coerce")
+                df["M3"] = pd.to_numeric(df["M3"], errors="coerce")
+
+                df["BeamLength"] = df.groupby(["Story", "UniqueName", "Combo"])[
+                    "Station"
+                ].transform("max")
+
+                df["RelStation"] = df["Station"] / df["BeamLength"]
+
+                bins = [0, 0.25, 0.75, 1.0]
+                labels = ["Left", "Middle", "Right"]
+
+                df["Zone"] = pd.cut(
+                    df["RelStation"], bins=bins, labels=labels, include_lowest=True
                 )
+
+                df_grouped = (
+                    df.groupby(
+                        ["Story", "UniqueName", "Combo", "Zone"], observed=False
+                    )["M3"]
+                    .agg(
+                        ["min", "max"]
+                    )  # min = Top Steel tension, max = Bot Steel tension
+                    .unstack()  # Moves Zone (Left/Middle/Right) to columns
+                )
+
+                df_nested = df_grouped.stack(level=0)
+                df_nested.index.set_names("Loc", level=-1, inplace=True)
+                df_final = df_nested.reset_index()
+                df_final["Loc"] = df_final["Loc"].replace({"min": "Top", "max": "Bot"})
+                df_final["Loc"] = pd.Categorical(
+                    df_final["Loc"], categories=["Top", "Bot"], ordered=True
+                )
+
+                df_final = df_final.sort_values(
+                    by=["Story", "UniqueName", "Combo", "Loc"]
+                )
+
+                df_lengths = df[["Story", "UniqueName", "BeamLength"]].drop_duplicates()
+                df_final = df_final.merge(
+                    df_lengths, on=["Story", "UniqueName"], how="left"
+                )
+                cols = list(df_final.columns)
+                cols.insert(3, cols.pop(cols.index("BeamLength")))
+                df_final = df_final[cols]
+                df_final = df_final.reset_index(drop=True)
+
+                df_assign_lookup = self.etabs.get_data(
+                    "Frame Assignments - Section Properties"
+                )[["Story", "UniqueName", "SectProp"]].drop_duplicates()
+
+                df_prop_lookup = self.etabs.get_data(
+                    "Frame Section Property Definitions - Concrete Rectangular"
+                )[["Name", "t3", "t2"]].rename(columns={"Name": "SectProp"})
+
+                df_final = df_final.merge(
+                    df_assign_lookup, on=["Story", "UniqueName"], how="left"
+                )
+                df_final = df_final.merge(df_prop_lookup, on="SectProp", how="left")
+
+                cols = list(df_final.columns)
+
+                cols.insert(4, cols.pop(cols.index("t3")))
+                cols.insert(5, cols.pop(cols.index("t2")))
+
+                df = df.merge(df_assign_lookup, on=["Story", "UniqueName"], how="left")
+                df = df.merge(df_prop_lookup, on="SectProp", how="left")
+
+                df["t3"] = pd.to_numeric(df["t3"], errors="coerce")
+                df["t2"] = pd.to_numeric(df["t2"], errors="coerce")
+                df["BeamLength"] = pd.to_numeric(df["BeamLength"], errors="coerce")
+                df["Station"] = pd.to_numeric(df["Station"], errors="coerce")
+                df["V2"] = pd.to_numeric(df["V2"], errors="coerce")
+                df["T"] = pd.to_numeric(df["T"], errors="coerce").abs()
+
+                df["MaxTorsion"] = df.groupby(["Story", "UniqueName", "Combo"])[
+                    "T"
+                ].transform("max")
+
+                df_torsion_lookup = df[
+                    ["Story", "UniqueName", "Combo", "MaxTorsion"]
+                ].drop_duplicates()
+
+                df_final = df_final.merge(
+                    df_torsion_lookup, on=["Story", "UniqueName", "Combo"], how="left"
+                )
+
+                df["d_off"] = df["t3"] - 0.06
+                df["two_t3"] = df["t3"] * 2
+
+                L_zero = 0
+                L_d = df["d_off"]
+                L_2t3 = df["two_t3"]
+
+                R_zero = df["BeamLength"]
+                R_d = df["BeamLength"] - df["d_off"]
+                R_2t3 = df["BeamLength"] - df["two_t3"]
+
+                def get_max_v2(df_sub, start, end):
+                    mask = (df_sub["Station"] >= start) & (df_sub["Station"] <= end)
+                    return df_sub.loc[mask, "V2"].abs().max()
+
+                grouped = df.groupby(["Story", "UniqueName", "Combo"], observed=False)
+
+                shear_zones = grouped.apply(
+                    lambda x: pd.Series(
+                        {
+                            "Vdl": get_max_v2(x, 0, x["d_off"].iloc[0]),
+                            "V2hl": get_max_v2(
+                                x, x["d_off"].iloc[0], x["two_t3"].iloc[0]
+                            ),
+                            "Vm": get_max_v2(
+                                x,
+                                x["two_t3"].iloc[0],
+                                x["BeamLength"].iloc[0] - x["two_t3"].iloc[0],
+                            ),
+                            "V2hr": get_max_v2(
+                                x,
+                                x["BeamLength"].iloc[0] - x["two_t3"].iloc[0],
+                                x["BeamLength"].iloc[0] - x["d_off"].iloc[0],
+                            ),
+                            "Vdr": get_max_v2(
+                                x,
+                                x["BeamLength"].iloc[0] - x["d_off"].iloc[0],
+                                x["BeamLength"].iloc[0],
+                            ),
+                        }
+                    ),  # Closes pd.Series
+                    include_groups=False,  # Required for newer Pandas versions
+                ).reset_index()
+
+                df_final = df_final.merge(
+                    shear_zones, on=["Story", "UniqueName", "Combo"], how="left"
+                )
+
+                desired_cols = [
+                    "Story",
+                    "UniqueName",
+                    "BeamLength",
+                    "t3",
+                    "t2",
+                    "Combo",
+                    "Loc",  # Identifiers & Geometry
+                    "Left",
+                    "Middle",
+                    "Right",  # Moments
+                    "Vdl",
+                    "V2hl",
+                    "Vm",
+                    "V2hr",
+                    "Vdr",
+                    "MaxTorsion",  # Shear Zones
+                ]
+
+                df_final = df_final[desired_cols]
+                df_final = df_final.reset_index(drop=True)
+                df_final = df_final.round(4)
+
+                df_beam_conn = self.etabs.get_data("Beam Object Connectivity")
+                df_col_conn = self.etabs.get_data("Column Object Connectivity")
+
+                df_beam_conn = df_beam_conn.rename(
+                    columns={"Unique Name": "UniqueName"}
+                )
+                df_col_conn = df_col_conn.rename(columns={"Unique Name": "UniqueName"})
+
+                column_nodes = set(
+                    df_col_conn["UniquePtI"].tolist()
+                    + df_col_conn["UniquePtJ"].tolist()
+                )
+
+                def check_cantilever(row):
+                    # Find this specific beam in the connectivity table
+                    beam_info = df_beam_conn[
+                        (df_beam_conn["Story"] == row["Story"])
+                        & (df_beam_conn["UniqueName"] == row["UniqueName"])
+                    ]
+
+                    if beam_info.empty:
+                        return "N"
+
+                    pt_i = beam_info["UniquePtI"].iloc[0]
+                    pt_j = beam_info["UniquePtJ"].iloc[0]
+
+                    # Logic: If point I OR point J is NOT in a column node, mark as Yes
+                    if pt_i not in column_nodes or pt_j not in column_nodes:
+                        return "Y"
+                    else:
+                        return "N"
+
+                df_final["Cantilever?"] = df_final.apply(check_cantilever, axis=1)
+
+                cols = list(df_final.columns)
+                cols.insert(2, cols.pop(cols.index("Cantilever?")))
+                df_final = df_final[cols]
+
+                self.display_table_data(df_final, self.ui.design_forces)
+                print(df)
+                print(df_final)
+
+                return df_final
+
             else:
                 print(f"Design failed with error code: {ret}")
 
@@ -262,7 +518,14 @@ class ETABSApp(QMainWindow):
         finally:
             loading.close()
 
-    def move_load_combo(self, source, target):
+    def set_effective_design_forces(self):
+        try:
+            df = self.etabs.get_data("Design Forces - Beams")
+
+        except Exception as e:
+            print(f"Error setting effective design forces: {e}")
+
+    def move_data(self, source, target):
         # 1. Get a list of all selected item objects
         selected_items = source.selectedItems()
 
@@ -296,12 +559,6 @@ class ETABSApp(QMainWindow):
         if data_list:
             for item in data_list:
                 list_widget.addItem(item)
-
-    def populate_ui_combos(self):
-        # Populate the Left, Top-Right, and Bottom-Right lists
-        self.setup_list_with_header(self.ui.combo_list, "Etabs Load Combinations")
-        self.setup_list_with_header(self.ui.uls_combo_list, "ULS Load Combinations")
-        self.setup_list_with_header(self.ui.sls_combo_list, "SLS Load Combinations")
 
     def toggle_auto_tagger(self):
         """
@@ -457,13 +714,27 @@ class ETABSApp(QMainWindow):
             print(f"Opening file: {file_path}")
             self.etabs.connect()
             self.etabs.open_model(file_path)
-            self.etabs.get_load_combinations()
             self.etabs.run_analysis()
+
+            list = self.etabs.get_data("Load Combination Definitions")["Name"].tolist()
+
+            load_combos = []
+            for i in range(len(list)):
+                if list[i] not in load_combos:
+                    load_combos.append(list[i])
 
             self.setup_list_with_header(
                 self.ui.combo_list,
                 "Etabs Load Combinations",
-                self.etabs.get_load_combinations(),
+                load_combos,
+            )
+
+            self.setup_list_with_header(
+                self.ui.beam_list,
+                "Beam List",
+                self.etabs.get_data("Frame Assignments - Section Properties")[
+                    "UniqueName"
+                ].tolist(),
             )
 
         except Exception as e:
@@ -517,7 +788,7 @@ class ETABSApp(QMainWindow):
         self.anim.setStartValue(normal_size)
         self.anim.setEndValue(small_size)
 
-        self.anim.setEasingCurve(QEasingCurve.Type.OutQuad)
+        self.anim.setEasingCurve(QEasingCurve.Loc.OutQuad)
 
         # Reset to PERFECT normal size when done
         self.anim.finished.connect(lambda: button.setIconSize(normal_size))
