@@ -1,4 +1,5 @@
 import os
+import sys
 import comtypes
 import comtypes.client
 import pandas as pd
@@ -55,11 +56,13 @@ class ETABSConnector:
             # Open the model
             self.sap_model.SetPresentUnits(6)  # Set units to kN, m, C
             self.sap_model.File.OpenFile(self.model_path)
-            print(f"Model opened successfully: {self.model_path}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Model opened successfully: {self.model_path}")
             return True
 
         except Exception as e:
-            print(f"Error opening model: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error opening model: {e}")
             return False
 
     def run_analysis(self):
@@ -67,14 +70,17 @@ class ETABSConnector:
             # Run the analysis
             run_info = self.sap_model.Analyze.RunAnalysis()
             if run_info == 0:
-                print("Analysis completed successfully")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Analysis completed successfully")
                 return True
             else:
-                print(f"Analysis failed with code: {run_info}")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Analysis failed with code: {run_info}")
                 return False
 
         except Exception as e:
-            print(f"Error running analysis: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error running analysis: {e}")
             return False
 
     def clear_load_combinations(self, load_combos):
@@ -83,14 +89,18 @@ class ETABSConnector:
                 ret = self.sap_model.DesignConcrete.SetComboStrength(combo, False)
 
                 if ret != 0:
+                    func_name = sys._getframe().f_code.co_name
                     print(
-                        f"Failed to clear load combination {combo} for design. Error code: {ret}"
+                        f"[{func_name}] Failed to clear load combination {combo} for design. Error code: {ret}"
                     )
                 else:
-                    print(f"Load combination {combo} cleared for design successfully.")
-
+                    func_name = sys._getframe().f_code.co_name
+                    print(
+                        f"[{func_name}] Load combination {combo} cleared for design successfully."
+                    )
         except Exception as e:
-            print(f"Error clearing load combinations for design: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error clearing load combinations for design: {e}")
 
     def set_load_combinations(self, load_combos):
         try:
@@ -117,14 +127,17 @@ class ETABSConnector:
 
             run_info = self.sap_model.DesignConcrete.StartDesign()
             if run_info == 0:
-                print("Concrete design completed successfully")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Concrete design completed successfully")
                 return True
             else:
-                print(f"Concrete design failed with code: {run_info}")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Concrete design failed with code: {run_info}")
                 return False
 
         except Exception as e:
-            print(f"Error running concrete design: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error running concrete design: {e}")
             return False
 
     def get_data(self, table_name):
@@ -136,7 +149,8 @@ class ETABSConnector:
 
             # Check if retrieval was successful
             if data[5] == 0:
-                print("Data Retrieved Successfully")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Data Retrieved Successfully")
 
                 # Store data in a pandas dataframe
                 headers = data[2]
@@ -150,7 +164,8 @@ class ETABSConnector:
                 return dataframe
 
             else:
-                print(f"Failed to retrieve datath code: {data[6]}")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Failed to retrieve data. Error code: {data[6]}")
 
         except Exception as e:
             return {"error": str(e)}
@@ -160,12 +175,14 @@ class ETABSConnector:
             ret = self.sap_model.SelectObj.GetSelected()
 
             if ret[0] > 0:
-                print(f"Unique name retrieved successfully: {ret[2][0]}")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] Unique name retrieved successfully: {ret[2][0]}")
                 return ret[2][0]
             return None
 
         except Exception as e:
-            print(f"Error occurred while retrieving unique name: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error occurred while retrieving unique name: {e}")
             pass
 
     def change_unique_name(
@@ -183,13 +200,17 @@ class ETABSConnector:
                 current_unique_name, new_unique_name
             )
             if ret == 0:
+                func_name = sys._getframe().f_code.co_name
                 print(
-                    f"Renamed {extracted_unique_name} to {new_unique_name} successfully."
+                    f"[{func_name}] Renamed {extracted_unique_name} to {new_unique_name} successfully."
                 )
                 return ret
 
         except Exception as e:
-            print(f"Failed to rename {extracted_unique_name}. Error code: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(
+                f"[{func_name}] Failed to rename {extracted_unique_name}. Error code: {e}"
+            )
 
     def clear_selection(self):
         if self.sap_model is None:
@@ -212,14 +233,16 @@ class ETABSConnector:
     def close_model(self):
         try:
             self.sap_model.File.Save()
-            print("Model saved successfully.")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Model saved successfully.")
             self.etabs_object.ApplicationExit(False)
-            print("ETABS application closed successfully.")
+            print(f"[{func_name}] ETABS application closed successfully.")
 
             self.sap_model = None
             self.etabs_object = None
         except Exception as e:
-            print(f"Error closing model: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error closing model: {e}")
             return False
 
 

@@ -99,7 +99,8 @@ class DESIGNER_APP(QMainWindow):
             df = self.etabs.get_data("Design Forces - Beams")
 
         except Exception as e:
-            print(f"Error setting effective design forces: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error setting effective design forces: {e}")
 
     def open_model(self):
         from PySide6.QtWidgets import QFileDialog, QProgressDialog, QApplication
@@ -124,13 +125,16 @@ class DESIGNER_APP(QMainWindow):
         QApplication.processEvents()
 
         try:
-            print(f"Opening file: {file_path}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Opening file: {file_path}")
+
             self.etabs.connect()
             self.etabs.open_model(file_path)
             self.etabs.run_analysis()
 
         except Exception as e:
-            print(f"Error opening model: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error opening model: {e}")
         finally:
             self.auto_tagger = AutoTaggerController(self.ui, self.etabs)
             self.BeamDesignController = BeamDesignController(self.ui, self.etabs)
@@ -142,7 +146,8 @@ class DESIGNER_APP(QMainWindow):
             sys.stdout = sys.__stdout__
             super().closeEvent(event)
         except Exception as e:
-            print(f"Error closing ETABS model: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error closing ETABS model: {e}")
 
     def animate_click(self, button):
         from PySide6.QtCore import QPropertyAnimation, QSize, QEasingCurve
@@ -225,7 +230,8 @@ class BeamDesignController:
             header.setSectionResizeMode(QHeaderView.Interactive)
 
         except Exception as e:
-            print(f"Error displaying table data: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Error displaying table data: {e}")
 
     class PropertyDataController:
         def __init__(self, parent):
@@ -470,8 +476,9 @@ class BeamDesignController:
 
                 # CHHECK IF CONCRETE DESIGN IS SUCCESSFUL
                 if ret == True:
+                    func_name = sys._getframe().f_code.co_name
                     print(
-                        "Concrete design completed successfully with selected combos."
+                        f"[{func_name}] Concrete design completed successfully with selected combos."
                     )
 
                     # GETS THE DESIGN FORCES OF BEAMS
@@ -479,8 +486,6 @@ class BeamDesignController:
 
                     # ELIMINATE THE LAST TWO CHARACTERS OF COMBO NAME (I.E. "LC1-1" BECOMES "LC1")
                     df["Combo"] = df["Combo"].str[:-2]
-
-                    print(df["Combo"])
 
                     # GETS THE DATA FOR STATION POINTS AND CORRESPONDING MOMENT
                     df["Station"] = pd.to_numeric(df["Station"], errors="coerce")
@@ -670,6 +675,7 @@ class BeamDesignController:
                     df_final = df_final.reset_index(drop=True)
                     df_final = df_final.round(4)
 
+                    # CHECK IF BEAM IS CANTILEVER
                     df_beam_conn = self.parent.etabs.get_data(
                         "Beam Object Connectivity"
                     )
@@ -684,7 +690,6 @@ class BeamDesignController:
                         columns={"Unique Name": "UniqueName"}
                     )
 
-                    # CHECK IF BEAM IS CANTILEVER
                     def check_cantilever(row):
                         column_nodes = set(
                             df_col_conn["UniquePtI"].tolist()
@@ -721,16 +726,25 @@ class BeamDesignController:
                     )
                     print(df)
                     print(df_final)
+                    func_name = sys._getframe().f_code.co_name
+                    print(
+                        f"[{func_name}] Design forces extracted and processed successfully."
+                    )
 
                     return df_final
 
                 else:
-                    print(f"Design failed with error code: {ret}")
+                    func_name = sys._getframe().f_code.co_name
+                    print(f"[{func_name}] Design failed with error code: {ret}")
 
             except Exception as e:
-                print(f"An error occurred during design execution: {e}")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] An error occurred during design execution: {e}")
             finally:
                 loading.close()
+
+        def seismic_overwrite(self):
+            pass
 
     class DeflectionController:
         def __init__(self, parent):
@@ -829,7 +843,8 @@ class AutoTaggerController:
             self.update_ui_state(False)
 
             # 2. Log and Feedback
-            print("Auto-Tagger deactivated.")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Auto-Tagger deactivated.")
 
         else:
             # --- CASE: IT IS STOPPED -> START IT ---
@@ -858,7 +873,8 @@ class AutoTaggerController:
             """)
 
             # 4. Log
-            print("Auto-Tagger activated.")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Auto-Tagger activated.")
 
     def check_etabs_selection(self):
         """if self.check_etabs_connection() is False:
@@ -869,7 +885,8 @@ class AutoTaggerController:
             if self.last_selection == [] or self.last_selection is None:
                 return
             else:
-                print(f"New Selection Detected: {self.last_selection}")
+                func_name = sys._getframe().f_code.co_name
+                print(f"[{func_name}] New Selection Detected: {self.last_selection}")
                 self.update_tagging(self.last_selection)
                 self.etabs.clear_selection()
                 self.etabs.refresh_view()
@@ -897,10 +914,14 @@ class AutoTaggerController:
                     self.ui.cmb_tag_letter.setCurrentIndex(current_Index + 1)
 
             else:
-                print(f"Failed to rename {extracted_unique_name}. Error code: {ret}")
+                func_name = sys._getframe().f_code.co_name
+                print(
+                    f"[{func_name}] Failed to rename {extracted_unique_name}. Error code: {ret}"
+                )
 
         except Exception as e:
-            print(f"Exception occurred while renaming: {e}")
+            func_name = sys._getframe().f_code.co_name
+            print(f"[{func_name}] Exception occurred while renaming: {e}")
 
     def on_prefix_changed(self):
         """
