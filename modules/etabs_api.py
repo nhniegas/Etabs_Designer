@@ -160,10 +160,12 @@ class ETABSConnector:
             ret = self.sap_model.SelectObj.GetSelected()
 
             if ret[0] > 0:
+                print(f"Unique name retrieved successfully: {ret[2][0]}")
                 return ret[2][0]
             return None
 
-        except:
+        except Exception as e:
+            print(f"Error occurred while retrieving unique name: {e}")
             pass
 
     def change_unique_name(
@@ -177,10 +179,9 @@ class ETABSConnector:
             else:
                 new_unique_name = f"{cmb_tag_name}-{cmb_tag_number}{cmb_tag_letter}"
 
-            ret = self.sap_model.FrameObj.ChangName(
+            ret = self.sap_model.FrameObj.ChangeName(
                 current_unique_name, new_unique_name
             )
-
             if ret == 0:
                 print(
                     f"Renamed {extracted_unique_name} to {new_unique_name} successfully."

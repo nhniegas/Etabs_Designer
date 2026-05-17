@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
     QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
     QStackedWidget, QTabWidget, QTableView, QTableWidget,
-    QTableWidgetItem, QToolBar, QWidget)
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         icon = QIcon()
-        icon.addFile(u"icons/ETABS_Logo.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"../../.designer/backup/icons/ETABS_Logo.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.menu_Open = QAction(MainWindow)
         self.menu_Open.setObjectName(u"menu_Open")
@@ -48,19 +48,19 @@ class Ui_MainWindow(object):
         self.actionOpenEtabs = QAction(MainWindow)
         self.actionOpenEtabs.setObjectName(u"actionOpenEtabs")
         icon1 = QIcon()
-        icon1.addFile(u"icons/OPEN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u"../../.designer/backup/icons/OPEN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionOpenEtabs.setIcon(icon1)
         self.actionOpenEtabs.setMenuRole(QAction.MenuRole.NoRole)
         self.actionReloadData = QAction(MainWindow)
         self.actionReloadData.setObjectName(u"actionReloadData")
         icon2 = QIcon()
-        icon2.addFile(u"icons/RELOAD.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u"../../.designer/backup/icons/RELOAD.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionReloadData.setIcon(icon2)
         self.actionReloadData.setMenuRole(QAction.MenuRole.NoRole)
         self.ActionRunDesign = QAction(MainWindow)
         self.ActionRunDesign.setObjectName(u"ActionRunDesign")
         icon3 = QIcon()
-        icon3.addFile(u"icons/RUN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u"../../.designer/backup/icons/RUN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ActionRunDesign.setIcon(icon3)
         self.ActionRunDesign.setMenuRole(QAction.MenuRole.NoRole)
         self.actionNhel_Pogi_The_Creator = QAction(MainWindow)
@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
         self.ActionDownload = QAction(MainWindow)
         self.ActionDownload.setObjectName(u"ActionDownload")
         icon4 = QIcon()
-        icon4.addFile(u"icons/DOWNLOAD.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u"../../.designer/backup/icons/DOWNLOAD.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ActionDownload.setIcon(icon4)
         self.ActionDownload.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(MainWindow)
@@ -91,12 +91,113 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1357, 706))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1357, 740))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.scrollAreaWidgetContents.setMinimumSize(QSize(0, 0))
         self.gridLayout_5 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.groupBox = QGroupBox(self.scrollAreaWidgetContents)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setMinimumSize(QSize(200, 450))
+        self.groupBox.setMaximumSize(QSize(200, 16777215))
+        self.groupBox.setStyleSheet(u"border: none;\n"
+"\n"
+"background-color: #f6f9ff;  /* Super Light Blue */\n"
+"border-radius: 6px;")
+        self.beam_design = QPushButton(self.groupBox)
+        self.beam_design.setObjectName(u"beam_design")
+        self.beam_design.setGeometry(QRect(25, 160, 151, 121))
+        self.beam_design.setMinimumSize(QSize(120, 0))
+        self.beam_design.setMaximumSize(QSize(250, 16777215))
+        self.beam_design.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    /* Hover State: Very light gray/almost white */\n"
+"    background-color: #f5f5f5; \n"
+"    border: 1px solid #cccccc;\n"
+"    /* Change text to dark gray so it's visible on the light background */\n"
+"    color: #333333; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Pressed State: Standard mid-gray */\n"
+"    background-color: #d0d0d0; \n"
+"    color: #000000;\n"
+"}\n"
+"\n"
+"")
+        icon5 = QIcon()
+        icon5.addFile(u"icons/BEAM.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.beam_design.setIcon(icon5)
+        self.beam_design.setIconSize(QSize(65, 65))
+        self.column_design = QPushButton(self.groupBox)
+        self.column_design.setObjectName(u"column_design")
+        self.column_design.setGeometry(QRect(25, 309, 151, 121))
+        self.column_design.setMinimumSize(QSize(120, 0))
+        self.column_design.setMaximumSize(QSize(250, 16777215))
+        self.column_design.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    /* Hover State: Very light gray/almost white */\n"
+"    background-color: #f5f5f5; \n"
+"    border: 1px solid #cccccc;\n"
+"    /* Change text to dark gray so it's visible on the light background */\n"
+"    color: #333333; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Pressed State: Standard mid-gray */\n"
+"    background-color: #d0d0d0; \n"
+"    color: #000000;\n"
+"}\n"
+"\n"
+"")
+        icon6 = QIcon()
+        icon6.addFile(u"icons/COLUMN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.column_design.setIcon(icon6)
+        self.column_design.setIconSize(QSize(100, 100))
+        self.btn_auto_tagger = QPushButton(self.groupBox)
+        self.btn_auto_tagger.setObjectName(u"btn_auto_tagger")
+        self.btn_auto_tagger.setGeometry(QRect(24, 20, 151, 121))
+        self.btn_auto_tagger.setMinimumSize(QSize(120, 0))
+        self.btn_auto_tagger.setMaximumSize(QSize(250, 16777215))
+        self.btn_auto_tagger.setStyleSheet(u"QPushButton {\n"
+"    border: none;             /* No button border */\n"
+"    background: transparent;  /* No grey background */\n"
+"    text-align: center;         /* Align text like a label */\n"
+"    padding: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    /* Hover State: Very light gray/almost white */\n"
+"    background-color: #f5f5f5; \n"
+"    border: 1px solid #cccccc;\n"
+"    /* Change text to dark gray so it's visible on the light background */\n"
+"    color: #333333; \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Pressed State: Standard mid-gray */\n"
+"    background-color: #d0d0d0; \n"
+"    color: #000000;\n"
+"}\n"
+"\n"
+"")
+        icon7 = QIcon()
+        icon7.addFile(u"icons/AUTO TAGGER.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btn_auto_tagger.setIcon(icon7)
+        self.btn_auto_tagger.setIconSize(QSize(100, 100))
+
+        self.gridLayout_5.addWidget(self.groupBox, 0, 0, 1, 1)
+
         self.stackedWidget = QStackedWidget(self.scrollAreaWidgetContents)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setMinimumSize(QSize(1000, 450))
@@ -244,16 +345,16 @@ class Ui_MainWindow(object):
         self.tab_4.setObjectName(u"tab_4")
         self.groupBox_3 = QGroupBox(self.tab_4)
         self.groupBox_3.setObjectName(u"groupBox_3")
-        self.groupBox_3.setGeometry(QRect(9, 9, 500, 381))
-        self.groupBox_3.setMinimumSize(QSize(500, 0))
+        self.groupBox_3.setGeometry(QRect(9, 9, 500, 311))
+        self.groupBox_3.setMinimumSize(QSize(500, 300))
         self.groupBox_3.setMaximumSize(QSize(500, 16777215))
         self.combo_list = QListWidget(self.groupBox_3)
         self.combo_list.setObjectName(u"combo_list")
-        self.combo_list.setGeometry(QRect(10, 10, 191, 361))
+        self.combo_list.setGeometry(QRect(10, 10, 191, 291))
         self.combo_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.add_uls = QPushButton(self.groupBox_3)
         self.add_uls.setObjectName(u"add_uls")
-        self.add_uls.setGeometry(QRect(210, 70, 81, 26))
+        self.add_uls.setGeometry(QRect(210, 60, 81, 26))
         self.add_uls.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -279,7 +380,7 @@ class Ui_MainWindow(object):
 "}")
         self.add_sls = QPushButton(self.groupBox_3)
         self.add_sls.setObjectName(u"add_sls")
-        self.add_sls.setGeometry(QRect(210, 260, 81, 26))
+        self.add_sls.setGeometry(QRect(210, 200, 81, 26))
         self.add_sls.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -305,15 +406,15 @@ class Ui_MainWindow(object):
 "}")
         self.sls_combo_list = QListWidget(self.groupBox_3)
         self.sls_combo_list.setObjectName(u"sls_combo_list")
-        self.sls_combo_list.setGeometry(QRect(300, 200, 191, 171))
+        self.sls_combo_list.setGeometry(QRect(300, 160, 191, 141))
         self.sls_combo_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.uls_combo_list = QListWidget(self.groupBox_3)
         self.uls_combo_list.setObjectName(u"uls_combo_list")
-        self.uls_combo_list.setGeometry(QRect(300, 10, 191, 171))
+        self.uls_combo_list.setGeometry(QRect(300, 10, 191, 141))
         self.uls_combo_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.remove_uls = QPushButton(self.groupBox_3)
         self.remove_uls.setObjectName(u"remove_uls")
-        self.remove_uls.setGeometry(QRect(210, 100, 81, 26))
+        self.remove_uls.setGeometry(QRect(210, 90, 81, 26))
         self.remove_uls.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -339,7 +440,7 @@ class Ui_MainWindow(object):
 "}")
         self.remove_sls = QPushButton(self.groupBox_3)
         self.remove_sls.setObjectName(u"remove_sls")
-        self.remove_sls.setGeometry(QRect(210, 290, 81, 26))
+        self.remove_sls.setGeometry(QRect(210, 230, 81, 26))
         self.remove_sls.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -365,11 +466,11 @@ class Ui_MainWindow(object):
 "}")
         self.groupBox_5 = QGroupBox(self.tab_4)
         self.groupBox_5.setObjectName(u"groupBox_5")
-        self.groupBox_5.setGeometry(QRect(515, 9, 585, 381))
-        self.groupBox_5.setMinimumSize(QSize(500, 0))
+        self.groupBox_5.setGeometry(QRect(10, 327, 500, 271))
+        self.groupBox_5.setMinimumSize(QSize(500, 250))
         self.remove_beams = QPushButton(self.groupBox_5)
         self.remove_beams.setObjectName(u"remove_beams")
-        self.remove_beams.setGeometry(QRect(250, 190, 81, 26))
+        self.remove_beams.setGeometry(QRect(210, 130, 81, 26))
         self.remove_beams.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -395,15 +496,15 @@ class Ui_MainWindow(object):
 "}")
         self.beam_list = QListWidget(self.groupBox_5)
         self.beam_list.setObjectName(u"beam_list")
-        self.beam_list.setGeometry(QRect(10, 10, 231, 361))
+        self.beam_list.setGeometry(QRect(10, 10, 191, 251))
         self.beam_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.selected_beam_list = QListWidget(self.groupBox_5)
         self.selected_beam_list.setObjectName(u"selected_beam_list")
-        self.selected_beam_list.setGeometry(QRect(340, 10, 231, 361))
+        self.selected_beam_list.setGeometry(QRect(300, 10, 191, 251))
         self.selected_beam_list.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
         self.add_beams = QPushButton(self.groupBox_5)
         self.add_beams.setObjectName(u"add_beams")
-        self.add_beams.setGeometry(QRect(250, 160, 81, 26))
+        self.add_beams.setGeometry(QRect(210, 100, 81, 26))
         self.add_beams.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -427,43 +528,38 @@ class Ui_MainWindow(object):
 "    /* Slightly deeper red when clicked */\n"
 "    background-color: #ee5253; \n"
 "}")
-        self.tab_widget.addTab(self.tab_4, "")
-        self.groupBox_5.raise_()
-        self.groupBox_3.raise_()
-        self.tab_6 = QWidget()
-        self.tab_6.setObjectName(u"tab_6")
-        self.groupBox_4 = QGroupBox(self.tab_6)
+        self.groupBox_4 = QGroupBox(self.tab_4)
         self.groupBox_4.setObjectName(u"groupBox_4")
-        self.groupBox_4.setGeometry(QRect(9, 10, 331, 211))
+        self.groupBox_4.setGeometry(QRect(530, 4, 561, 191))
         font = QFont()
         font.setPointSize(9)
         self.groupBox_4.setFont(font)
         self.label_2 = QLabel(self.groupBox_4)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(20, 44, 81, 16))
+        self.label_2.setGeometry(QRect(25, 29, 81, 16))
         self.label_2.setFont(font)
         self.label_3 = QLabel(self.groupBox_4)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(20, 74, 211, 16))
+        self.label_3.setGeometry(QRect(25, 59, 211, 16))
         self.label_3.setFont(font)
         self.label_4 = QLabel(self.groupBox_4)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(20, 105, 161, 16))
+        self.label_4.setGeometry(QRect(25, 90, 161, 16))
         self.label_4.setFont(font)
         self.label_5 = QLabel(self.groupBox_4)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(20, 135, 101, 16))
+        self.label_5.setGeometry(QRect(25, 120, 101, 16))
         self.label_5.setFont(font)
         self.label_6 = QLabel(self.groupBox_4)
         self.label_6.setObjectName(u"label_6")
-        self.label_6.setGeometry(QRect(35, 171, 121, 16))
+        self.label_6.setGeometry(QRect(40, 156, 121, 16))
         self.label_6.setFont(font)
         self.cmb_gravity_load_combo = QComboBox(self.groupBox_4)
         self.cmb_gravity_load_combo.setObjectName(u"cmb_gravity_load_combo")
-        self.cmb_gravity_load_combo.setGeometry(QRect(179, 169, 131, 26))
+        self.cmb_gravity_load_combo.setGeometry(QRect(400, 154, 131, 26))
         self.max_rho = QCheckBox(self.groupBox_4)
         self.max_rho.setObjectName(u"max_rho")
-        self.max_rho.setGeometry(QRect(290, 40, 31, 24))
+        self.max_rho.setGeometry(QRect(511, 25, 31, 24))
         self.max_rho.setStyleSheet(u"/* Make the default internal box invisible so it doesn't clash */\n"
 "QCheckBox::indicator {\n"
 "    width: 18px;\n"
@@ -488,7 +584,7 @@ class Ui_MainWindow(object):
 "}")
         self.half_moment = QCheckBox(self.groupBox_4)
         self.half_moment.setObjectName(u"half_moment")
-        self.half_moment.setGeometry(QRect(290, 70, 31, 24))
+        self.half_moment.setGeometry(QRect(511, 55, 31, 24))
         self.half_moment.setStyleSheet(u"/* Make the default internal box invisible so it doesn't clash */\n"
 "QCheckBox::indicator {\n"
 "    width: 18px;\n"
@@ -513,7 +609,7 @@ class Ui_MainWindow(object):
 "}")
         self.fourth_moment = QCheckBox(self.groupBox_4)
         self.fourth_moment.setObjectName(u"fourth_moment")
-        self.fourth_moment.setGeometry(QRect(290, 100, 31, 24))
+        self.fourth_moment.setGeometry(QRect(511, 85, 31, 24))
         self.fourth_moment.setStyleSheet(u"/* Make the default internal box invisible so it doesn't clash */\n"
 "QCheckBox::indicator {\n"
 "    width: 18px;\n"
@@ -538,7 +634,7 @@ class Ui_MainWindow(object):
 "}")
         self.prob_shear = QCheckBox(self.groupBox_4)
         self.prob_shear.setObjectName(u"prob_shear")
-        self.prob_shear.setGeometry(QRect(290, 130, 31, 24))
+        self.prob_shear.setGeometry(QRect(511, 115, 31, 24))
         self.prob_shear.setStyleSheet(u"/* Make the default internal box invisible so it doesn't clash */\n"
 "QCheckBox::indicator {\n"
 "    width: 18px;\n"
@@ -600,13 +696,13 @@ class Ui_MainWindow(object):
         self.checkBox_8 = QCheckBox(self.groupBox_6)
         self.checkBox_8.setObjectName(u"checkBox_8")
         self.checkBox_8.setGeometry(QRect(290, 130, 21, 24))
-        self.groupBox_9 = QGroupBox(self.tab_6)
+        self.groupBox_9 = QGroupBox(self.tab_4)
         self.groupBox_9.setObjectName(u"groupBox_9")
-        self.groupBox_9.setGeometry(QRect(10, 230, 331, 121))
+        self.groupBox_9.setGeometry(QRect(530, 199, 561, 121))
         self.groupBox_9.setFont(font)
         self.label_13 = QLabel(self.groupBox_9)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setGeometry(QRect(20, 41, 211, 16))
+        self.label_13.setGeometry(QRect(30, 41, 211, 16))
         self.label_13.setFont(font)
         self.groupBox_10 = QGroupBox(self.groupBox_9)
         self.groupBox_10.setObjectName(u"groupBox_10")
@@ -655,7 +751,7 @@ class Ui_MainWindow(object):
         self.comboBox_5.addItem("")
         self.comboBox_5.addItem("")
         self.comboBox_5.setObjectName(u"comboBox_5")
-        self.comboBox_5.setGeometry(QRect(220, 40, 89, 26))
+        self.comboBox_5.setGeometry(QRect(440, 40, 89, 26))
         self.comboBox_6 = QComboBox(self.groupBox_9)
         self.comboBox_6.addItem("")
         self.comboBox_6.addItem("")
@@ -664,16 +760,16 @@ class Ui_MainWindow(object):
         self.comboBox_6.addItem("")
         self.comboBox_6.addItem("")
         self.comboBox_6.setObjectName(u"comboBox_6")
-        self.comboBox_6.setGeometry(QRect(220, 72, 89, 26))
+        self.comboBox_6.setGeometry(QRect(440, 72, 89, 26))
         self.label_15 = QLabel(self.groupBox_9)
         self.label_15.setObjectName(u"label_15")
-        self.label_15.setGeometry(QRect(20, 73, 211, 16))
+        self.label_15.setGeometry(QRect(30, 73, 211, 16))
         self.label_15.setFont(font)
-        self.extract_etabs_forces = QPushButton(self.tab_6)
+        self.extract_etabs_forces = QPushButton(self.tab_4)
         self.extract_etabs_forces.setObjectName(u"extract_etabs_forces")
-        self.extract_etabs_forces.setGeometry(QRect(10, 360, 331, 31))
-        self.extract_etabs_forces.setMinimumSize(QSize(150, 0))
-        self.extract_etabs_forces.setMaximumSize(QSize(800, 16777215))
+        self.extract_etabs_forces.setGeometry(QRect(535, 330, 550, 29))
+        self.extract_etabs_forces.setMinimumSize(QSize(250, 0))
+        self.extract_etabs_forces.setMaximumSize(QSize(550, 16777215))
         self.extract_etabs_forces.setStyleSheet(u"QPushButton {\n"
 "    /* Lighter grey background to match the window theme */\n"
 "    background-color: #f0f0f0; \n"
@@ -697,18 +793,25 @@ class Ui_MainWindow(object):
 "    /* Slightly deeper red when clicked */\n"
 "    background-color: #ee5253; \n"
 "}")
+        self.tab_widget.addTab(self.tab_4, "")
+        self.tab_6 = QWidget()
+        self.tab_6.setObjectName(u"tab_6")
+        self.verticalLayout = QVBoxLayout(self.tab_6)
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.design_forces = QTableView(self.tab_6)
         self.design_forces.setObjectName(u"design_forces")
-        self.design_forces.setGeometry(QRect(350, 30, 751, 361))
+
+        self.verticalLayout.addWidget(self.design_forces)
+
         self.tab_widget.addTab(self.tab_6, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.gridLayout_3 = QGridLayout(self.tab_2)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.designer_data = QTableWidget(self.tab_2)
-        self.designer_data.setObjectName(u"designer_data")
+        self.reinforcement_design = QTableWidget(self.tab_2)
+        self.reinforcement_design.setObjectName(u"reinforcement_design")
 
-        self.gridLayout_3.addWidget(self.designer_data, 0, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.reinforcement_design, 0, 0, 1, 1)
 
         self.tab_widget.addTab(self.tab_2, "")
         self.tab_5 = QWidget()
@@ -721,7 +824,7 @@ class Ui_MainWindow(object):
         self.export_data.setGeometry(QRect(20, 20, 551, 481))
         self.tab_widget.addTab(self.tab_3, "")
 
-        self.gridLayout_2.addWidget(self.tab_widget, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.tab_widget, 1, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.page_beam_design)
         self.page_auto_tagger = QWidget()
@@ -773,7 +876,7 @@ class Ui_MainWindow(object):
         self.lbl_input_tag_2.setFont(font2)
         self.stackedWidget.addWidget(self.page_auto_tagger)
 
-        self.gridLayout_5.addWidget(self.stackedWidget, 0, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.stackedWidget, 0, 1, 4, 1)
 
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
@@ -784,11 +887,12 @@ class Ui_MainWindow(object):
         self.label.setStyleSheet(u"border: none;\n"
 "background: transparent;")
 
-        self.gridLayout_5.addWidget(self.label, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.label, 1, 0, 1, 1)
 
         self.console_log = QPlainTextEdit(self.scrollAreaWidgetContents)
         self.console_log.setObjectName(u"console_log")
-        self.console_log.setMinimumSize(QSize(0, 155))
+        self.console_log.setMinimumSize(QSize(0, 170))
+        self.console_log.setMaximumSize(QSize(200, 200))
         font4 = QFont()
         font4.setFamilies([u"Consolas"])
         font4.setPointSize(10)
@@ -806,107 +910,11 @@ class Ui_MainWindow(object):
 "    ")
         self.console_log.setReadOnly(True)
 
-        self.gridLayout_5.addWidget(self.console_log, 2, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.console_log, 2, 0, 1, 1)
 
-        self.groupBox = QGroupBox(self.scrollAreaWidgetContents)
-        self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setMinimumSize(QSize(200, 542))
-        self.groupBox.setStyleSheet(u"border: none;\n"
-"\n"
-"background-color: #f6f9ff;  /* Super Light Blue */\n"
-"border-radius: 6px;")
-        self.beam_design = QPushButton(self.groupBox)
-        self.beam_design.setObjectName(u"beam_design")
-        self.beam_design.setGeometry(QRect(20, 10, 151, 121))
-        self.beam_design.setMinimumSize(QSize(120, 0))
-        self.beam_design.setMaximumSize(QSize(250, 16777215))
-        self.beam_design.setStyleSheet(u"QPushButton {\n"
-"    border: none;             /* No button border */\n"
-"    background: transparent;  /* No grey background */\n"
-"    text-align: center;         /* Align text like a label */\n"
-"    padding: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    /* Hover State: Very light gray/almost white */\n"
-"    background-color: #f5f5f5; \n"
-"    border: 1px solid #cccccc;\n"
-"    /* Change text to dark gray so it's visible on the light background */\n"
-"    color: #333333; \n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    /* Pressed State: Standard mid-gray */\n"
-"    background-color: #d0d0d0; \n"
-"    color: #000000;\n"
-"}\n"
-"\n"
-"")
-        icon5 = QIcon()
-        icon5.addFile(u"icons/BEAM.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.beam_design.setIcon(icon5)
-        self.beam_design.setIconSize(QSize(65, 65))
-        self.column_design = QPushButton(self.groupBox)
-        self.column_design.setObjectName(u"column_design")
-        self.column_design.setGeometry(QRect(20, 130, 151, 121))
-        self.column_design.setMinimumSize(QSize(120, 0))
-        self.column_design.setMaximumSize(QSize(250, 16777215))
-        self.column_design.setStyleSheet(u"QPushButton {\n"
-"    border: none;             /* No button border */\n"
-"    background: transparent;  /* No grey background */\n"
-"    text-align: center;         /* Align text like a label */\n"
-"    padding: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    /* Hover State: Very light gray/almost white */\n"
-"    background-color: #f5f5f5; \n"
-"    border: 1px solid #cccccc;\n"
-"    /* Change text to dark gray so it's visible on the light background */\n"
-"    color: #333333; \n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    /* Pressed State: Standard mid-gray */\n"
-"    background-color: #d0d0d0; \n"
-"    color: #000000;\n"
-"}\n"
-"\n"
-"")
-        icon6 = QIcon()
-        icon6.addFile(u"icons/COLUMN.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.column_design.setIcon(icon6)
-        self.column_design.setIconSize(QSize(100, 100))
-        self.btn_auto_tagger = QPushButton(self.groupBox)
-        self.btn_auto_tagger.setObjectName(u"btn_auto_tagger")
-        self.btn_auto_tagger.setGeometry(QRect(20, 250, 151, 121))
-        self.btn_auto_tagger.setMinimumSize(QSize(120, 0))
-        self.btn_auto_tagger.setMaximumSize(QSize(250, 16777215))
-        self.btn_auto_tagger.setStyleSheet(u"QPushButton {\n"
-"    border: none;             /* No button border */\n"
-"    background: transparent;  /* No grey background */\n"
-"    text-align: center;         /* Align text like a label */\n"
-"    padding: 5px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    /* Hover State: Very light gray/almost white */\n"
-"    background-color: #f5f5f5; \n"
-"    border: 1px solid #cccccc;\n"
-"    /* Change text to dark gray so it's visible on the light background */\n"
-"    color: #333333; \n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    /* Pressed State: Standard mid-gray */\n"
-"    background-color: #d0d0d0; \n"
-"    color: #000000;\n"
-"}\n"
-"\n"
-"")
-        icon7 = QIcon()
-        icon7.addFile(u"icons/AUTO TAGGER.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btn_auto_tagger.setIcon(icon7)
-        self.btn_auto_tagger.setIconSize(QSize(100, 100))
+        self.verticalSpacer = QSpacerItem(20, 44, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout_5.addWidget(self.groupBox, 0, 0, 3, 1)
+        self.gridLayout_5.addItem(self.verticalSpacer, 3, 0, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -927,9 +935,6 @@ class Ui_MainWindow(object):
         self.menuAbout = QMenu(self.menubar)
         self.menuAbout.setObjectName(u"menuAbout")
         MainWindow.setMenuBar(self.menubar)
-        self.toolBar_2 = QToolBar(MainWindow)
-        self.toolBar_2.setObjectName(u"toolBar_2")
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar_2)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuRaw_Data.menuAction())
@@ -944,18 +949,11 @@ class Ui_MainWindow(object):
         self.menuExport.addSeparator()
         self.menuExport.addSeparator()
         self.menuAbout.addAction(self.actionNhel_Pogi_The_Creator)
-        self.toolBar_2.addAction(self.actionOpenEtabs)
-        self.toolBar_2.addSeparator()
-        self.toolBar_2.addAction(self.actionReloadData)
-        self.toolBar_2.addSeparator()
-        self.toolBar_2.addAction(self.ActionRunDesign)
-        self.toolBar_2.addSeparator()
-        self.toolBar_2.addAction(self.ActionDownload)
 
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(0)
-        self.tab_widget.setCurrentIndex(2)
+        self.tab_widget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -987,6 +985,10 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(tooltip)
         self.ActionDownload.setToolTip(QCoreApplication.translate("MainWindow", u"Download Excel", None))
 #endif // QT_CONFIG(tooltip)
+        self.groupBox.setTitle("")
+        self.beam_design.setText("")
+        self.column_design.setText("")
+        self.btn_auto_tagger.setText("")
         self.btn_section_data.setText(QCoreApplication.translate("MainWindow", u"Section Data", None))
         self.btn_concrete_material.setText(QCoreApplication.translate("MainWindow", u"Concrete Material", None))
         self.btn_rebar_material.setText(QCoreApplication.translate("MainWindow", u"Rebar Material", None))
@@ -1000,7 +1002,6 @@ class Ui_MainWindow(object):
         self.groupBox_5.setTitle("")
         self.remove_beams.setText(QCoreApplication.translate("MainWindow", u"<<<", None))
         self.add_beams.setText(QCoreApplication.translate("MainWindow", u">>>", None))
-        self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Preferences", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Seismic", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"A. Max 0.025", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"B. One-Half (+) M * (-) M", None))
@@ -1049,7 +1050,8 @@ class Ui_MainWindow(object):
 
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"B. Stirrups Bar  Size", None))
         self.extract_etabs_forces.setText(QCoreApplication.translate("MainWindow", u"Extract Etabs Design Forces", None))
-        self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_6), QCoreApplication.translate("MainWindow", u"Overwrites", None))
+        self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Overwrites", None))
+        self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_6), QCoreApplication.translate("MainWindow", u"Design Forces", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Reinforcement Design", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"Deflection Check", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Export ", None))
@@ -1060,15 +1062,10 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"CONSOLE LOG", None))
         self.console_log.setPlainText("")
         self.console_log.setPlaceholderText("")
-        self.groupBox.setTitle("")
-        self.beam_design.setText("")
-        self.column_design.setText("")
-        self.btn_auto_tagger.setText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuRaw_Data.setTitle(QCoreApplication.translate("MainWindow", u"Import Data", None))
         self.menuDesigner.setTitle(QCoreApplication.translate("MainWindow", u"Designer ", None))
         self.menuExport.setTitle(QCoreApplication.translate("MainWindow", u"Export ", None))
         self.menuAbout.setTitle(QCoreApplication.translate("MainWindow", u"About", None))
-        self.toolBar_2.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar_2", None))
     # retranslateUi
 
